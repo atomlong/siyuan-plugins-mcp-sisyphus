@@ -60,3 +60,5 @@ Useful locations:
 Common stdio error:
 
 - `Failed to reconnect ... -32000`: often means the MCP client could not start `mcp-server.cjs` or the server could not reach `SIYUAN_API_URL`. For Docker, first check that `args` points to a client-side file path and `SIYUAN_API_URL` points to the reachable SiYuan API endpoint, usually `http://<docker-host-ip>:6806`.
+
+Desktop HTTP MCP uses the current workspace window’s actual API origin, including random ports, and refuses to start when that origin is unavailable. HTTP 401 means authentication failure, 403 means HTTP access denied, and 429 means rate limiting; these responses no longer instruct users to start SiYuan. Standalone deployments still use `SIYUAN_API_URL`. The copied AI setup prompt asks for global versus project/workspace scope before updating configuration.

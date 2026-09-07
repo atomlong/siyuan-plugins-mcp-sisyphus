@@ -19,6 +19,14 @@ describe('translateError', () => {
         expect(translated?.code).toBe('kernel_unreachable');
     });
 
+    it.each([[401, 'authentication_failed'], [403, 'permission_denied'], [429, 'rate_limited'], [404, 'kernel_http_error'], [500, 'kernel_http_error']])('classifies HTTP %s without claiming the kernel is stopped', (status, code) => {
+        const error = new Error(`HTTP error: ${status} status`);
+        expect(translateError(error)?.code).toBe(code);
+        const response = JSON.parse(createErrorResult(error).content[0].text);
+        expect(response.error.message).toContain(String(status));
+        expect(response.error.hint).not.toContain('start SiYuan');
+    });
+
     it('returns null for unrecognised errors', () => {
         expect(translateError(new Error('some random failure'))).toBeNull();
     });

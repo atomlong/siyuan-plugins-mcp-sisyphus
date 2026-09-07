@@ -209,7 +209,7 @@ describe('UI refresh integration', () => {
         expect(client.request).toHaveBeenCalledWith('/api/ui/reloadProtyle', { id: 'doc-1' });
     });
 
-    it('keeps block update warning alongside ui refresh metadata', async () => {
+    it('keeps ui refresh metadata without a spurious multiline warning', async () => {
         const result = await callBlockTool(client, {
             action: 'update',
             id: 'block-1',
@@ -218,7 +218,7 @@ describe('UI refresh integration', () => {
         }, blockConfig as never, permMgr);
 
         const parsed = parseResult(result);
-        expect(parsed.warning).toMatch(/single-block replacement/);
+        expect(parsed.warning).toBeUndefined();
         expect(parsed.uiRefresh.operations).toEqual([{ type: 'reloadProtyle', id: 'doc-1' }]);
     });
 

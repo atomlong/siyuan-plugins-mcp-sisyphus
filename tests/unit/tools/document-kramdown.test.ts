@@ -2,6 +2,7 @@ import { describe, expect, it, vi } from 'vitest';
 
 import {
     createSyntheticDocumentBlockWindow,
+    MAX_DOCUMENT_CONTENT_BYTES,
     listDocumentBlocksInTreeOrder,
     readDocumentBlockWindow,
 } from '@/tools/internal/document-kramdown';
@@ -38,7 +39,7 @@ function createWindowClient() {
 }
 
 describe('document block windows', () => {
-    it('uses tree-ordered complete blocks and returns a full outline with optional IDs', async () => {
+    it('uses tree-ordered complete blocks and returns a window outline with optional IDs', async () => {
         const client = createWindowClient();
         const blocks = await listDocumentBlocksInTreeOrder(client, 'doc');
         const window = await readDocumentBlockWindow(client, 'doc', {
@@ -52,15 +53,14 @@ describe('document block windows', () => {
             blockStart: 0,
             blockLimit: 2,
             returnedBlocks: 2,
-            totalBlocks: 6,
-            tokenBudget: 2000,
+            totalBlocks: null,
+            outlineScope: 'window',
             truncated: true,
             hasNextWindow: true,
             nextBlockStart: 2,
         });
         expect(window.outline).toEqual([
             { blockIndex: 0, level: 2, title: 'Overview', id: 'heading' },
-            { blockIndex: 5, level: 3, title: 'Details', id: 'details' },
         ]);
         expect(window.blockRefs).toEqual([
             { blockIndex: 0, id: 'heading', type: 'h', subtype: 'h2' },
@@ -68,6 +68,50 @@ describe('document block windows', () => {
         ]);
         expect(window.content).not.toContain('{:');
         expect(window.content).not.toContain('id="');
+    });
+
+    it('tries full text by default instead of the old 50-block / 2000-token window', async () => {
+        const known = Array.from({ length: 75 }, (_, i) => ({ id: String(i), type: 'p' }));
+        const client = createMockClient({ request: vi.fn(async () => ({ kramdown: 'x'.repeat(200) })) });
+        const result = await readDocumentBlockWindow(client, 'doc', {}, known);
+        expect(result.returnedBlocks).toBe(75);
+        expect(result.totalBlocks).toBe(75);
+        expect(result.truncated).toBe(false);
+        expect(result.estimatedTokens).toBeGreaterThan(2000);
+    });
+
+    it('fetches only the requested body and does not enumerate the tail of the tree', async () => {
+        const client = createWindowClient();
+        await readDocumentBlockWindow(client, 'doc', { blockLimit: 1 });
+        const bodies = client.request.mock.calls.filter(([endpoint]) => endpoint === '/api/block/getBlockKramdown');
+        expect(bodies.map(([, data]) => data.id)).toEqual(['heading']);
+        const enumerated = client.request.mock.calls.filter(([endpoint]) => endpoint === '/api/block/getChildBlocks');
+        expect(enumerated.map(([, data]) => data.id)).toEqual(['doc', 'heading']);
+    });
+
+    it('caps UTF-8 bytes before returning a whole block and resumes without duplicates', async () => {
+        const known = Array.from({ length: 4 }, (_, i) => ({ id: String(i), type: 'p' }));
+        const client = createMockClient({ request: vi.fn(async (_endpoint, data) => ({ kramdown: data.id + '中'.repeat(40000) })) });
+        const first = await readDocumentBlockWindow(client, 'doc', { includeBlockIds: true }, known);
+        expect(first).toMatchObject({ returnedBlocks: 2, nextBlockStart: 2, limitReason: 'content_bytes', totalBlocks: null });
+        expect(Buffer.byteLength(first.content)).toBeLessThanOrEqual(MAX_DOCUMENT_CONTENT_BYTES);
+        expect(client.request).toHaveBeenCalledTimes(3); // One bounded block read discovers the byte boundary.
+        const second = await readDocumentBlockWindow(client, 'doc', { blockStart: first.nextBlockStart, includeBlockIds: true }, known);
+        expect(second).toMatchObject({ returnedBlocks: 2, totalBlocks: 4, hasNextWindow: false });
+        expect([...first.blockRefs!, ...second.blockRefs!].map(b => b.id)).toEqual(['0', '1', '2', '3']);
+    });
+
+    it('rejects a single huge block even with an explicit token budget', async () => {
+        const client = createMockClient({ request: vi.fn(async () => ({ kramdown: 'x'.repeat(MAX_DOCUMENT_CONTENT_BYTES + 1) })) });
+        await expect(readDocumentBlockWindow(client, 'doc', { tokenBudget: 1 }, [{ id: 'huge' }])).rejects.toThrow('huge exceeds');
+    });
+
+    it('caps empty-block windows and makes forward progress', async () => {
+        const known = Array.from({ length: 2001 }, (_, i) => ({ id: String(i), type: 'p' }));
+        const client = createMockClient({ request: vi.fn(async () => ({ kramdown: '' })) });
+        const result = await readDocumentBlockWindow(client, 'doc', {}, known);
+        expect(result).toMatchObject({ returnedBlocks: 2000, nextBlockStart: 2000, limitReason: 'block_limit' });
+        expect(client.request).toHaveBeenCalledTimes(2000);
     });
 
     it('returns an oversized code block whole instead of cutting it at the token budget', async () => {

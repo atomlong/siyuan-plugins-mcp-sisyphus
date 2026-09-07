@@ -60,3 +60,5 @@
 常见 stdio 错误：
 
 - `Failed to reconnect ... -32000`：通常表示 MCP 客户端无法启动 `mcp-server.cjs`，或 server 无法访问 `SIYUAN_API_URL`。Docker 场景下先检查 `args` 是否指向客户端侧文件路径，以及 `SIYUAN_API_URL` 是否指向可访问的思源 API 地址，通常是 `http://<docker-host-ip>:6806`。
+
+桌面 HTTP MCP 使用当前工作区窗口的实际 API origin，包括随机端口；无法确定 origin 时拒绝启动。401 表示认证失败，403 表示 HTTP 访问被拒绝，429 表示限流；这些响应不再提示“启动思源”。独立部署仍使用 `SIYUAN_API_URL`。复制给 AI 的配置说明会要求先明确全局或项目／工作区范围，再修改对应配置。

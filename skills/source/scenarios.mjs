@@ -51,6 +51,7 @@ Classify the requested operation before choosing a surface: **R** is read or dis
 - A workspace path such as \`/Notebook/Folder/Doc\`, an hpath such as \`/Folder/Doc\`, and a storage path such as \`/20260712123000-abc123.sy\` are different values.
 - Resolve the exact target before mutating: map a human path or search candidate to the returned stable ID and retain its notebook, hpath, and storage path. Never derive an opaque ID or storage path from a title, and never treat a candidate list as the final target.
 - Read before writing; after a mutation, read the affected object again.
+- Document reads try full text by default, capped at 256 KiB UTF-8 and 2000 complete blocks; a single oversized block fails explicitly. Outlines and database hints cover the returned window, and totalBlocks is null until EOF.
 - Keep reads bounded and prove completeness: use \`nextWindow\` or explicit \`blockStart\`/\`blockLimit\`/\`tokenBudget\` for documents, and page parameters for lists and searches. Continue while another page/window is advertised, then reread the exact affected ID/path and compare the intended field or status.
 - If a write response is lost, or the result is \`outcome_unknown\` or \`readback_mismatch\`, stop and inspect the exact target. Do not resend with a new \`requestId\` merely because the acknowledgement was missing.
 - Missing results may be caused by notebook permissions or indexing delay.

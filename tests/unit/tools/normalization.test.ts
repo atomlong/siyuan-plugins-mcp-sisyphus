@@ -115,11 +115,12 @@ describe('tool result normalization', () => {
             hPath: '/Doc',
             content: 'hello #tag#',
             outline: [],
+            outlineScope: 'window',
+            contentBytes: 11,
+            maxContentBytes: 262144,
             blockStart: 0,
-            blockLimit: 50,
             returnedBlocks: 1,
             totalBlocks: 1,
-            tokenBudget: 2000,
             estimatedTokens: 3,
             tokenMode: 'approx_context_v1',
             truncated: false,
@@ -314,7 +315,7 @@ describe('tool result normalization', () => {
         expect(parsed.thresholdBytes).toBe(1024 * 1024);
     });
 
-    it('adds a warning when block.update receives multi-line markdown', async () => {
+    it('does not infer truncation from multi-line markdown alone', async () => {
         const blockApi = await import('@/api/block');
         vi.mocked(blockApi.updateBlock).mockResolvedValue({ updated: 1 });
 
@@ -331,7 +332,6 @@ describe('tool result normalization', () => {
             dataType: 'markdown',
             markdown: '# Title\n\n| A | B |\n| - | - |',
             updated: 1,
-            warning: 'block(update) is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use block(append), block(prepend), or block(insert) when you need multiple blocks or tables.',
         });
     });
 
@@ -432,11 +432,14 @@ describe('tool result normalization', () => {
             hPath: '/Doc',
             content: 'abcdefghij',
             outline: [],
+            outlineScope: 'window',
+            contentBytes: 10,
+            maxContentBytes: 262144,
             blockStart: 0,
             blockLimit: 1,
             returnedBlocks: 1,
-            totalBlocks: 2,
-            tokenBudget: 2000,
+            totalBlocks: null,
+            limitReason: 'block_limit',
             estimatedTokens: 3,
             tokenMode: 'approx_context_v1',
             truncated: true,
@@ -447,9 +450,8 @@ describe('tool result normalization', () => {
                 mode: 'markdown',
                 blockStart: 1,
                 blockLimit: 1,
-                tokenBudget: 2000,
             },
-            nextWindowHint: 'Continue with document({"action":"get_doc","id":"doc-1","mode":"markdown","blockStart":1,"blockLimit":1,"tokenBudget":2000}).',
+            nextWindowHint: 'Continue with document({"action":"get_doc","id":"doc-1","mode":"markdown","blockStart":1,"blockLimit":1}).',
         });
     });
 

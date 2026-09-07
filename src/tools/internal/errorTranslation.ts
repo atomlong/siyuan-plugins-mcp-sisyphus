@@ -11,7 +11,11 @@ export type ErrorCode =
     | 'av_not_found'
     | 'permission_denied'
     | 'unsupported_siyuan_version'
-    | 'kernel_unreachable';
+    | 'kernel_unreachable'
+    | 'authentication_failed'
+    | 'rate_limited'
+    | 'kernel_http_error'
+    | 'response_too_large';
 
 export interface ErrorTranslation {
     code: ErrorCode;
@@ -98,6 +102,12 @@ const ERROR_RULES: ErrorRule[] = [
 
 export function translateError(error: Error): ErrorTranslation | null {
     const message = error.message ?? '';
+    const status = Number(message.match(/HTTP error:\s*(\d{3})\b/i)?.[1]);
+    if (status === 401) return { code: 'authentication_failed', hint: 'Check the API URL and token belong to the same SiYuan workspace.' };
+    if (status === 403) return { code: 'permission_denied', hint: 'The HTTP endpoint denied access. Check its authentication and access policy; changing notebook permissions may not help.' };
+    if (status === 429) return { code: 'rate_limited', hint: 'The SiYuan endpoint is rate limiting requests. Wait before retrying and verify the API URL and workspace token.' };
+    if (status) return { code: 'kernel_http_error', hint: 'The endpoint responded with an HTTP error. Check its status, API route, and server logs; this does not mean SiYuan is stopped.' };
+    if ((error as Error & { code?: string }).code === 'response_too_large') return { code: 'response_too_large', hint: 'The bounded read stopped before buffering the full response. Narrow the content or inspect a smaller block.' };
     for (const rule of ERROR_RULES) {
         if (rule.patterns.some((pattern) => pattern.test(message))) {
             return { code: rule.code, hint: rule.hint };

@@ -383,14 +383,13 @@ async function listDocumentAttributeViews(
 ): Promise<Array<{ blockID: string; avID?: string }>> {
     const blocks = knownBlocks ?? await listDocumentBlocksInTreeOrder(client, documentId);
     const avBlocks = blocks.filter((block) => block.type === 'av');
-    return Promise.all(avBlocks.map(async (block) => {
-        const result = await blockApi.getBlockKramdown(client, block.id);
-        const kramdown = typeof result.kramdown === 'string' ? result.kramdown : '';
-        return {
-            blockID: block.id,
-            ...(extractAttributeViewIdFromKramdown(kramdown) ? { avID: extractAttributeViewIdFromKramdown(kramdown) } : {}),
-        };
-    }));
+    const views: Array<{ blockID: string; avID?: string }> = [];
+    for (const block of avBlocks) {
+        const result = await blockApi.getBlockKramdown(client, block.id, 1024 * 1024);
+        const avID = extractAttributeViewIdFromKramdown(typeof result.kramdown === 'string' ? result.kramdown : '');
+        views.push({ blockID: block.id, ...(avID ? { avID } : {}) });
+    }
+    return views;
 }
 
 function createFsReadWindowPayload(
@@ -632,11 +631,14 @@ const handleRead: FsActionHandler = async ({ client, permMgr, rawArgs }) => {
     if (scope.type !== 'document') throw new Error(`fs.read requires a document path, got "${parsed.path}".`);
     const denied = await ensurePermissionForNotebook(permMgr, scope.notebook, 'read');
     if (denied) return denied;
-    const blocks = await listDocumentBlocksInTreeOrder(client, scope.id);
-    const [window, attributeViews] = await Promise.all([
-        readDocumentBlockWindow(client, scope.id, windowOptions, blocks),
-        listDocumentAttributeViews(client, scope.id, blocks),
-    ]);
+    const readWindow = await readDocumentBlockWindow(client, scope.id, { ...windowOptions, includeBlockIds: true });
+    const blocks = readWindow.blockRefs ?? [];
+    const { blockRefs, ...withoutRefs } = readWindow;
+    const window = parsed.includeBlockIds ? readWindow : {
+        ...withoutRefs,
+        outline: withoutRefs.outline.map(({ id, ...heading }) => heading),
+    };
+    const attributeViews = await listDocumentAttributeViews(client, scope.id, blocks);
     return createJsonResult({
         ...createFsReadWindowPayload(scope.canonicalPath, window, parsed.includeBlockIds ?? false),
         ...(attributeViews.length > 0 ? createAttributeViewFsHint(attributeViews) : {}),

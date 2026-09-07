@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { SiYuanClient } from '@/api/client';
+import { SiYuanClient, ResponseSizeLimitError } from '@/api/client';
 
 describe('SiYuanClient', () => {
     let client: SiYuanClient;
@@ -34,6 +34,41 @@ describe('SiYuanClient', () => {
             client.setToken('test-token-123');
             // Token is private, but we can verify through behavior
             expect(client).toBeDefined();
+        });
+    });
+
+    describe('bounded read responses', () => {
+        it('decodes UTF-8 split across response chunks', async () => {
+            const bytes = new TextEncoder().encode(JSON.stringify({ code: 0, data: '中文' }));
+            mockFetch.mockResolvedValue(new Response(new ReadableStream({ start(controller) {
+                for (const byte of bytes) controller.enqueue(Uint8Array.of(byte));
+                controller.close();
+            } })));
+            await expect(client.requestRead('/api/test', {}, 100)).resolves.toBe('中文');
+        });
+
+        it.each([undefined, '1'])('cancels oversized streams even with absent or incorrect content-length (%s)', async (length) => {
+            const cancel = vi.fn();
+            const body = new ReadableStream({ pull(controller) { controller.enqueue(new Uint8Array(32)); }, cancel });
+            mockFetch.mockResolvedValue(new Response(body, { headers: length ? { 'content-length': length } : {} }));
+            await expect(client.requestRead('/api/test', {}, 40)).rejects.toBeInstanceOf(ResponseSizeLimitError);
+            expect(cancel).toHaveBeenCalledOnce();
+            expect(mockFetch).toHaveBeenCalledOnce();
+        });
+
+        it('rejects a declared oversized response before reading its body', async () => {
+            const cancel = vi.fn();
+            mockFetch.mockResolvedValue(new Response(new ReadableStream({ cancel }), { headers: { 'content-length': '1000' } }));
+            await expect(client.requestRead('/api/test', {}, 100)).rejects.toThrow('100-byte');
+            expect(cancel).toHaveBeenCalledOnce();
+        });
+
+        it('times out and cancels a stalled response body', async () => {
+            const cancel = vi.fn();
+            mockFetch.mockResolvedValue(new Response(new ReadableStream({ cancel })));
+            const timedClient = new SiYuanClient({ timeout: 20 });
+            await expect(timedClient.requestRead('/api/test', {}, 100)).rejects.toThrow('timeout');
+            expect(cancel).toHaveBeenCalledOnce();
         });
     });
 

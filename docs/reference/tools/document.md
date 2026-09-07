@@ -39,7 +39,7 @@ Related pages:
 - `create` accepts `((id 'title'))`, naked `((id))`, and `#tag#` directly. Naked refs are expanded to explicit anchors; if lookup fails, MCP falls back to `((id 'id'))` with a warning.
 - `create` allows footnote-style refs such as `[^1]` and `[text](siyuan://blocks/id)`, but the result includes a hint because they do not create SiYuan backlinks.
 - `get_doc` returns the same editable Markdown shape as `fs.read`, preserving `((id 'title'))` and `#tag#`.
-- `get_doc mode="markdown"` always returns complete display-block windows. Continue with `nextWindow` or use `blockStart`, `blockLimit`, and `tokenBudget`; the response also includes a full heading `outline`. `includeBlockIds=true` adds sidecar block references without changing `content`.
+- `get_doc mode="markdown"` tries full text by default, capped at 256 KiB UTF-8 and 2000 complete blocks. Explicit `blockStart`, `blockLimit`, and `tokenBudget` remain supported. Continue using `nextWindow`; `outlineScope="window"` and `totalBlocks=null` until EOF. A single oversized block fails explicitly. `includeBlockIds=true` adds sidecar references.
 - Character `page/pageSize` pagination has been removed. `mode="html"` remains the unpaginated current-view HTML path and continues to use `size`.
 
 ## Safety Rules

@@ -171,11 +171,15 @@ export default class SiyuanMCP extends Plugin {
         }
         appendHttpLifecycleLog(`[plugin] start HTTP requested: ${this.httpSettings.host}:${this.httpSettings.port}`);
         const siyuanToken = (window as any)?.siyuan?.config?.api?.token ?? undefined;
+        const siyuanApiUrl = window.location?.origin;
+        if (!siyuanApiUrl || !/^https?:\/\//.test(siyuanApiUrl)) {
+            throw new Error('Cannot determine the current SiYuan workspace API origin. Reopen this workspace before starting HTTP MCP.');
+        }
         await this.httpLauncher.start({
             host: this.httpSettings.host,
             port: this.httpSettings.port,
             token: this.httpSettings.authEnabled ? this.httpSettings.token : undefined,
-            siyuanApiUrl: "http://127.0.0.1:6806",
+            siyuanApiUrl,
             siyuanToken,
             tlsCertFile: this.httpSettings.tlsEnabled && this.httpSettings.tlsCertFile ? this.httpSettings.tlsCertFile : undefined,
             tlsKeyFile: this.httpSettings.tlsEnabled && this.httpSettings.tlsKeyFile ? this.httpSettings.tlsKeyFile : undefined,

@@ -400,6 +400,17 @@ describe('block tool', () => {
         expect(client.request).toHaveBeenCalledWith('/api/block/deleteBlock', { id: 'av-block-1' });
     });
 
+    it.each([
+        '| A | B |\n| --- | --- |\n| 1 | 2 |\n| 3 | 4 |',
+        '```ts\nconst a = 1;\nconst b = 2;\n```',
+    ])('does not warn that a single multiline block is truncated', async (data) => {
+        const client = createBlockReplaceClient();
+        const result = await callBlockTool(client, { action: 'update', id: 'block-1', dataType: 'markdown', data }, buildDefaultToolConfig().block, permMgr as never);
+        expect(result.isError).toBeUndefined();
+        expect(parseResult(result).warning).toBeUndefined();
+        expect(client.request).toHaveBeenCalledWith('/api/block/updateBlock', { id: 'block-1', dataType: 'markdown', data });
+    });
+
     it('replaces the first exact match inside one block', async () => {
         const client = createBlockReplaceClient();
 

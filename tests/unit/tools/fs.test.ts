@@ -265,13 +265,12 @@ describe('fs tool', () => {
         expect(parsed.truncated).toBe(true);
         expect(parsed.hasNextWindow).toBe(true);
         expect(parsed.returnedBlocks).toBe(1);
-        expect(parsed.totalBlocks).toBe(2);
+        expect(parsed.totalBlocks).toBeNull();
         expect(parsed.nextWindow).toMatchObject({
             action: 'read',
             path: '/Notebook/Doc 1',
             blockStart: 1,
             blockLimit: 1,
-            tokenBudget: 2000,
         });
     });
 

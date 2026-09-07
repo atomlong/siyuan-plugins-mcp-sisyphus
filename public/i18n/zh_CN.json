@@ -827,7 +827,7 @@
     "mcpStdioNote": "注意：stdio 每次通常只对应一个客户端连接；Docker 场景下也应优先使用它。",
     "mcpAiSetupTitle": "让 AI 配置 MCP",
     "mcpAiSetupDesc": "复制一段包含当前客户端、连接方式和精确配置的 Prompt，让可信 AI 自动合并配置并完成验证。",
-    "mcpAiSetupPrompt": "请帮我在当前 AI 客户端中配置 SiYuan Sisyphus MCP。\n\n目标客户端预设：{{client}}\n连接方式：{{transport}}\n\n请使用以下配置：\n```{{format}}\n{{config}}\n```\n\n我授权你检查并更新当前客户端的 MCP 配置。请完成以下事项：\n1. 识别当前操作系统，以及该客户端实际使用的配置文件或设置入口。\n2. 修改前先读取现有配置，只合并名为“{{serverName}}”的服务项，保留其他 MCP Server 和设置。\n3. 将本 Prompt 中的所有 Token 视为密钥，不要在日志、总结或最终回复中回显。\n4. 使用 stdio 时检查 Node.js 和服务脚本是否存在；使用 HTTP/HTTPS 时检查端点是否可达，若服务未启动，请指出需要在思源中开启的设置。\n5. 按客户端要求重载或重连 MCP，然后通过列出工具或调用无副作用的只读 action 验证连接。\n6. 最后说明修改了哪些文件或设置以及验证结果，但不要暴露凭据。\n\n如果你无法直接修改客户端配置，请给出准确的目标路径、命令或界面操作步骤。",
+    "mcpAiSetupPrompt": "请帮我在当前 AI 客户端中配置 SiYuan Sisyphus MCP。\n\n目标客户端预设：{{client}}\n连接方式：{{transport}}\n\n请使用以下配置：\n```{{format}}\n{{config}}\n```\n\n我授权你检查并更新当前客户端的 MCP 配置。请完成以下事项：\n1. 如果我尚未明确配置范围，先询问是用户级全局配置，还是当前项目／工作区配置，等待我选择后再修改。随后识别操作系统并定位所选范围的配置入口。如果客户端不支持所选范围，先说明限制，不要擅自改到其他范围。\n2. 修改前先读取现有配置，只合并名为“{{serverName}}”的服务项，保留其他 MCP Server 和设置。\n3. 将本 Prompt 中的所有 Token 视为密钥，不要在日志、总结或最终回复中回显。\n4. 使用 stdio 时检查 Node.js 和服务脚本是否存在；使用 HTTP/HTTPS 时检查端点是否可达，若服务未启动，请指出需要在思源中开启的设置。\n5. 按客户端要求重载或重连 MCP，然后通过列出工具或调用无副作用的只读 action 验证连接。\n6. 最后说明修改了哪些文件或设置以及验证结果，但不要暴露凭据。\n\n如果你无法直接修改客户端配置，请给出准确的目标路径、命令或界面操作步骤。",
     "cliGuideTitle": "CLI 连接",
     "cliGuideDesc": "CLI 直接通过 SiYuan HTTP API 连接，不依赖 MCP server。适合终端、脚本、自动化任务。",
     "cliChooseDesc": "相对来说会更轻量。",

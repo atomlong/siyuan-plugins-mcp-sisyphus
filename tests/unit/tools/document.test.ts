@@ -312,10 +312,8 @@ describe('document.get_doc markdown', () => {
         expect(parsed.hPath).toBe('/Doc 1');
         expect(parsed).toMatchObject({
             blockStart: 0,
-            blockLimit: 50,
             returnedBlocks: 1,
             totalBlocks: 1,
-            tokenBudget: 2000,
             truncated: false,
             hasNextWindow: false,
         });

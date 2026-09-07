@@ -137,9 +137,11 @@ export async function unfoldBlock(client: SiYuanClient, id: string): Promise<nul
 /**
  * Get the kramdown content of a block
  */
-export async function getBlockKramdown(client: SiYuanClient, id: string): Promise<IResGetBlockKramdown> {
+export async function getBlockKramdown(client: SiYuanClient, id: string, maxResponseBytes?: number): Promise<IResGetBlockKramdown> {
     const request: IReqGetBlockKramdown = { id };
-    return client.requestRead<IResGetBlockKramdown>('/api/block/getBlockKramdown', request);
+    return maxResponseBytes === undefined
+        ? client.requestRead<IResGetBlockKramdown>('/api/block/getBlockKramdown', request)
+        : client.requestRead<IResGetBlockKramdown>('/api/block/getBlockKramdown', request, maxResponseBytes);
 }
 
 /**
@@ -156,9 +158,11 @@ export async function getBlockKramdowns(
 /**
  * Get all child blocks of a parent block
  */
-export async function getChildBlocks(client: SiYuanClient, id: string): Promise<IResGetChildBlock[]> {
+export async function getChildBlocks(client: SiYuanClient, id: string, maxResponseBytes?: number): Promise<IResGetChildBlock[]> {
     const request: IReqGetChildBlocks = { id };
-    return client.requestRead<IResGetChildBlock[]>('/api/block/getChildBlocks', request);
+    return maxResponseBytes === undefined
+        ? client.requestRead<IResGetChildBlock[]>('/api/block/getChildBlocks', request)
+        : client.requestRead<IResGetChildBlock[]>('/api/block/getChildBlocks', request, maxResponseBytes);
 }
 
 /**

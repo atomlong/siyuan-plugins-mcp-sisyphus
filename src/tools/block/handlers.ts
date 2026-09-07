@@ -249,10 +249,6 @@ function createUpdateResult(
         }
     }
 
-    if (context.dataType === 'markdown' && /[\r\n]/.test(context.data)) {
-        payload.warning = 'block(update) is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use block(append), block(prepend), or block(insert) when you need multiple blocks or tables.';
-    }
-
     return createJsonResult(payload);
 }
 

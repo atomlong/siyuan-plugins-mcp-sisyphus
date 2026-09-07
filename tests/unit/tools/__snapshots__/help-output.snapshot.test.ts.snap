@@ -1204,7 +1204,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/add_to_daily_note",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1238,7 +1238,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/append",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1271,7 +1271,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/batch_kramdown",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1300,7 +1300,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/breadcrumb",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1329,7 +1329,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/delete",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1357,7 +1357,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/docs_info",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1383,7 +1383,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/dom",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1412,7 +1412,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/get_attrs",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1440,7 +1440,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/get_children",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1469,7 +1469,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/get_kramdown",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1497,7 +1497,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/info",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1525,7 +1525,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/insert",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1551,7 +1551,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/move",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1580,7 +1580,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/prepend",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1610,7 +1610,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/recent_updated",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1638,7 +1638,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/replace",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1671,7 +1671,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/set_attrs",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1702,7 +1702,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/set_fold_state",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1733,7 +1733,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/transfer_references",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1761,7 +1761,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/update",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1771,7 +1771,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
           "block(action="recent_updated") is read-only; MCP filters unreadable notebooks first and then applies count.",
           "block(action="recent_updated") now presents the document-grouped summary as the primary user-facing view while keeping the raw block stream for advanced consumers.",
         ],
-        "hint": "Use dataType + data + id to replace block content. Returns a slim success object instead of raw DOM operations. block(action="update") is best for single-block replacement; multi-line markdown may be truncated to the first line by SiYuan, so use append/prepend/insert when you need multiple blocks or tables. If the content should create tags, write them as #tag#.",
+        "hint": "Use dataType + data + id to replace block content. Returns a slim success object instead of raw DOM operations. block(action="update") is best for single-block replacement; one table or fenced code block can contain multiple lines. Use append/prepend/insert for multiple sibling blocks and verify the resulting structure. If the content should create tags, write them as #tag#.",
         "requiredFields": [],
         "requiresConfirmation": false,
         "shapes": [
@@ -1810,7 +1810,7 @@ AV actions operate on real SiYuan attribute views (database blocks), not Markdow
         "fullDocResource": "siyuan://help/action/block/word_count",
         "guidance": [
           "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-          "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+          "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
           "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
           "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
           "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -1860,7 +1860,7 @@ block.word_count: required [ids] | optional []
 block.add_to_daily_note: required [notebook, dataType, data, position] | optional []
 block.docs_info: required [] | optional [id, ids, refCount, av]
 
-block(action="prepend") or block(action="append") with a document ID targets the document start or end. block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content. Requires user confirmation before: delete, move.",
+block(action="prepend") or block(action="append") with a document ID targets the document start or end. block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement. Requires user confirmation before: delete, move.",
     "overview": {
       "actionSummaries": {
         "add_to_daily_note": "Use notebook + dataType + data + position ("append" or "prepend") to add content to today’s daily note.",
@@ -1882,7 +1882,7 @@ block(action="prepend") or block(action="append") with a document ID targets the
         "set_attrs": "Use attrs to write block attributes such as custom metadata. For flashcards, this only writes metadata such as {"custom-riff-decks":"<deck-id>"}; prefer flashcard(action="create_card") when you want a block to become a real review card.",
         "set_fold_state": "Use a foldable block ID + folded (true to fold, false to unfold).",
         "transfer_references": "requires: fromID, toID",
-        "update": "Use dataType + data + id to replace block content. Returns a slim success object instead of raw DOM operations. block(action="update") is best for single-block replacement; multi-line markdown may be truncated to the first line by SiYuan, so use append/prepend/insert when you need multiple blocks or tables. If the content should create tags, write them as #tag#.",
+        "update": "Use dataType + data + id to replace block content. Returns a slim success object instead of raw DOM operations. block(action="update") is best for single-block replacement; one table or fenced code block can contain multiple lines. Use append/prepend/insert for multiple sibling blocks and verify the resulting structure. If the content should create tags, write them as #tag#.",
         "word_count": "Provide one or more block IDs to receive aggregate stat data.",
       },
       "actions": {
@@ -1959,7 +1959,7 @@ block(action="prepend") or block(action="append") with a document ID targets the
           "requiresConfirmation": false,
         },
         "update": {
-          "hint": "Use dataType + data + id to replace block content. Returns a slim success object instead of raw DOM operations. block(action="update") is best for single-block replacement; multi-line markdown may be truncated to the first line by SiYuan, so use append/prepend/insert when you need multiple blocks or tables. If the content should create tags, write them as #tag#.",
+          "hint": "Use dataType + data + id to replace block content. Returns a slim success object instead of raw DOM operations. block(action="update") is best for single-block replacement; one table or fenced code block can contain multiple lines. Use append/prepend/insert for multiple sibling blocks and verify the resulting structure. If the content should create tags, write them as #tag#.",
           "requiresConfirmation": false,
         },
         "word_count": {
@@ -1995,7 +1995,7 @@ block(action="prepend") or block(action="append") with a document ID targets the
       "detailsHint": "Call block(action="help", topic="<actionName>") for required fields, shapes, and a minimal example.",
       "guidance": [
         "block(action="prepend") or block(action="append") with a document ID targets the document start or end.",
-        "block(action="update") is best for single-block replacement. Multi-line markdown may be truncated to the first line by SiYuan; use append/prepend/insert when you need multiple blocks, tables, or longer multi-line content.",
+        "block(action="update") is best for single-block replacement. One table, fenced code block, or list may contain many lines and still be one block. Use append/prepend/insert for multiple sibling blocks; verify the resulting structure after replacement.",
         "block(action="replace") only searches the kramdown of the single block identified by id. It does not traverse child blocks, sibling blocks, headings with their following content, or the whole document.",
         "Before block(action="replace"), call block(action="get_kramdown", id=...) and copy an exact old snippet from that result. It writes back through the original DOM text nodes; naked ((id)) references, footnotes, and siyuan://blocks links are allowed with backlink-semantics hints.",
         "block(action="prepend") or block(action="append") with a block ID targets that block's child list.",
@@ -2333,7 +2333,7 @@ block(action="prepend") or block(action="append") with a document ID targets the
           "For recently created documents, document(action="lookup", hpath=...) may briefly lag behind create because it depends on SiYuan indexing; retry if needed.",
           "document(action="lookup", id=...) may hit the same short indexing delay right after create; MCP retries briefly and then returns a timing-specific hint if indexing still has not settled.",
         ],
-        "hint": "Use a document ID. mode="markdown" returns clean Markdown in complete display-block windows with outline, token budget, and nextWindow metadata; use blockStart/blockLimit/tokenBudget and optionally includeBlockIds. page/pageSize character pagination was removed. mode="html" uses the current focus view.",
+        "hint": "Use a document ID. mode="markdown" tries full clean Markdown by default, bounded to 256 KiB UTF-8 and 2000 complete blocks, with a window-scoped outline and nextWindow; totalBlocks is null until EOF; use blockStart/blockLimit/tokenBudget and optionally includeBlockIds. page/pageSize character pagination was removed. mode="html" uses the current focus view.",
         "requiredFields": [
           "id",
         ],
@@ -2734,7 +2734,7 @@ For ordinary document file operations, prefer fs(action="ls"|"tree"|"read"|"writ
         "ensure_link_targets": "Scope every request with an explicit notebook ID and parent document ID. resolve/reuse require existing child document IDs and never fall back to titles. create accepts explicit new titles only; if a same-title child already exists, it is returned as unresolved rather than guessed or reused. dryRun performs zero writes only for create. resolve/reuse are read-only; create uses strict validateOnly preflight, then one commit with a fresh UUIDv7 requestId plus expectedStructureHash. Responses contain exact ID/path/HPath readback and resolved/created/reused/unresolved accounting.",
         "get_child_blocks": "Use a document ID. Returns direct child blocks only.",
         "get_child_docs": "Use a document ID. Returns direct child documents only.",
-        "get_doc": "Use a document ID. mode="markdown" returns clean Markdown in complete display-block windows with outline, token budget, and nextWindow metadata; use blockStart/blockLimit/tokenBudget and optionally includeBlockIds. page/pageSize character pagination was removed. mode="html" uses the current focus view.",
+        "get_doc": "Use a document ID. mode="markdown" tries full clean Markdown by default, bounded to 256 KiB UTF-8 and 2000 complete blocks, with a window-scoped outline and nextWindow; totalBlocks is null until EOF; use blockStart/blockLimit/tokenBudget and optionally includeBlockIds. page/pageSize character pagination was removed. mode="html" uses the current focus view.",
         "get_outline": "Use a document ID to return SiYuan’s native heading tree without reading the document body. preview defaults to false. The response includes heading block IDs, nesting, and headingCount.",
         "heading_to_doc": "requires: headingID, targetNotebook",
         "list_tree": "Use notebook + path, where path is a storage path such as / or /20240318112233-abc123.sy.",
@@ -2774,7 +2774,7 @@ For ordinary document file operations, prefer fs(action="ls"|"tree"|"read"|"writ
           "requiresConfirmation": false,
         },
         "get_doc": {
-          "hint": "Use a document ID. mode="markdown" returns clean Markdown in complete display-block windows with outline, token budget, and nextWindow metadata; use blockStart/blockLimit/tokenBudget and optionally includeBlockIds. page/pageSize character pagination was removed. mode="html" uses the current focus view.",
+          "hint": "Use a document ID. mode="markdown" tries full clean Markdown by default, bounded to 256 KiB UTF-8 and 2000 complete blocks, with a window-scoped outline and nextWindow; totalBlocks is null until EOF; use blockStart/blockLimit/tokenBudget and optionally includeBlockIds. page/pageSize character pagination was removed. mode="html" uses the current focus view.",
           "requiresConfirmation": false,
         },
         "get_outline": {
@@ -4367,7 +4367,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4401,7 +4401,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4435,7 +4435,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4446,7 +4446,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs(action="reorder") applies a complete manual order to every visible direct child under path and switches the notebook to custom sorting. Read fs.ls first and include each returned child path exactly once.",
           "fs(action="rm") and fs(action="mv") require explicit user confirmation before execution.",
         ],
-        "hint": "Use a human-readable document path. Returns an AI-editable Markdown window made only of complete display blocks. Continue with nextWindow or blockStart/blockLimit/tokenBudget; page/pageSize character pagination was removed. The response includes a full heading outline, and includeBlockIds=true adds a sidecar blockRefs mapping without polluting content. When complex SiYuan blocks are detected, use block.dom, file.export_md, av, or other advanced tools for inspection and editing.",
+        "hint": "Use a human-readable document path. Tries full AI-editable Markdown by default, bounded to 256 KiB UTF-8 and 2000 complete blocks; totalBlocks is null until EOF. Continue with nextWindow or blockStart/blockLimit/tokenBudget; page/pageSize character pagination was removed. The response includes a window-scoped heading outline, and includeBlockIds=true adds a sidecar blockRefs mapping without polluting content. When complex SiYuan blocks are detected, use block.dom, file.export_md, av, or other advanced tools for inspection and editing.",
         "requiredFields": [
           "path",
         ],
@@ -4471,7 +4471,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4530,7 +4530,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4564,7 +4564,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4598,7 +4598,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4632,7 +4632,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4666,7 +4666,7 @@ flashcard actions cover review-first flashcard workflows and deck discovery. lis
           "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
           "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
           "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-          "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+          "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
           "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
           "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
           "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",
@@ -4711,7 +4711,7 @@ Use fs first for ordinary document file operations: list, tree, read, write, mov
       "actionSummaries": {
         "ls": "Use a human-readable path. "/" lists readable notebook roots; /Notebook or /Notebook/Folder lists direct child documents.",
         "mv": "Moves or renames a document using human-readable paths. This action requires explicit user confirmation.",
-        "read": "Use a human-readable document path. Returns an AI-editable Markdown window made only of complete display blocks. Continue with nextWindow or blockStart/blockLimit/tokenBudget; page/pageSize character pagination was removed. The response includes a full heading outline, and includeBlockIds=true adds a sidecar blockRefs mapping without polluting content. When complex SiYuan blocks are detected, use block.dom, file.export_md, av, or other advanced tools for inspection and editing.",
+        "read": "Use a human-readable document path. Tries full AI-editable Markdown by default, bounded to 256 KiB UTF-8 and 2000 complete blocks; totalBlocks is null until EOF. Continue with nextWindow or blockStart/blockLimit/tokenBudget; page/pageSize character pagination was removed. The response includes a window-scoped heading outline, and includeBlockIds=true adds a sidecar blockRefs mapping without polluting content. When complex SiYuan blocks are detected, use block.dom, file.export_md, av, or other advanced tools for inspection and editing.",
         "reorder": "Applies a complete manual order to all visible direct child documents under path. orderedPaths must contain every current child path exactly once; the notebook is switched to custom sorting.",
         "replace": "Edits matched non-complex Markdown blocks by exact old/new matching against the same AI-editable view returned by fs.read. Canonical input is edit={old,new}; shorthand old + new is also accepted. If the document contains complex SiYuan-native blocks, fs.replace skips those blocks and returns skippedComplexBlocks; matches only inside skipped blocks or across block boundaries are rejected without writing. For inline formatting, old should be plain text without Markdown style delimiters such as **, *, \`, or ~~; existing DOM inline styles are preserved. Naked ((id)) refs are normalized, and footnotes/siyuan://blocks links are allowed but do not create backlinks. replace_all=true replaces every exact match across editable blocks. Use ((id 'title')) for new double-links and #tag# for tags.",
         "rm": "Deletes a document by human-readable path. This action requires explicit user confirmation.",
@@ -4729,7 +4729,7 @@ Use fs first for ordinary document file operations: list, tree, read, write, mov
           "requiresConfirmation": true,
         },
         "read": {
-          "hint": "Use a human-readable document path. Returns an AI-editable Markdown window made only of complete display blocks. Continue with nextWindow or blockStart/blockLimit/tokenBudget; page/pageSize character pagination was removed. The response includes a full heading outline, and includeBlockIds=true adds a sidecar blockRefs mapping without polluting content. When complex SiYuan blocks are detected, use block.dom, file.export_md, av, or other advanced tools for inspection and editing.",
+          "hint": "Use a human-readable document path. Tries full AI-editable Markdown by default, bounded to 256 KiB UTF-8 and 2000 complete blocks; totalBlocks is null until EOF. Continue with nextWindow or blockStart/blockLimit/tokenBudget; page/pageSize character pagination was removed. The response includes a window-scoped heading outline, and includeBlockIds=true adds a sidecar blockRefs mapping without polluting content. When complex SiYuan blocks are detected, use block.dom, file.export_md, av, or other advanced tools for inspection and editing.",
           "requiresConfirmation": false,
         },
         "reorder": {
@@ -4776,7 +4776,7 @@ Use fs first for ordinary document file operations: list, tree, read, write, mov
         "fs paths are human-readable workspace paths. Prefer /Notebook/Folder/Doc so resolution is unambiguous; a notebook-omitted path such as /Folder/Doc works only when it uniquely matches across readable notebooks. fs outputs canonical paths with the notebook name and hides notebook IDs, block IDs, and storage paths.",
         "fs is a pure Markdown convenience layer. If a document contains SiYuan-native structures such as database blocks, super blocks, embeds, media blocks, query embeds, widgets, HTML, or precise block-tree layout, inspect and modify those structures with advanced tools such as block, av, file, document, or search instead.",
         "fs.read returns an AI-editable Markdown view built from block kramdown, not /api/export/exportMdContent. It preserves SiYuan double-links as ((id 'title')), preserves tags as #tag#, strips SiYuan zero-width tag markers, and hides block/list-item IAL metadata such as {: id="..." updated="..."} from normal list editing.",
-        "fs.read always returns complete display-block windows. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a full heading outline and nextWindow when more blocks remain.",
+        "fs.read tries full text by default, stopping at 256 KiB UTF-8 content or 2000 complete blocks. Reads are incremental; totalBlocks is null until EOF and outlineScope is window. Use blockStart/blockLimit/tokenBudget to continue long documents; code, math, tables, lists, quotes, and other container blocks are never split. A window may slightly exceed tokenBudget, and leading headings stay with the first body block. The response includes a window-scoped heading outline and nextWindow when more blocks remain.",
         "Copy old snippets for fs.replace from fs.read output. fs.replace uses the same AI-editable view for matching, so list items like "- item" can be replaced without including hidden IAL metadata. For inline styled text, use the plain text inside the style markers as old text: replace "hello" inside **hello** or \`hello\`, not "**hello**" or "\`hello\`"; DOM writeback preserves the existing inline style.",
         "Use document, block, search, or av for advanced SiYuan-specific operations such as block-level layout, metadata, database rows, SQL, backlinks, or assets.",
         "fs(action="write") creates missing documents. Do not include a leading # Title in markdown; the document title is rendered automatically. Existing documents are protected unless overwrite=true.",

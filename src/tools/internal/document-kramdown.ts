@@ -34,10 +34,14 @@ export interface DocumentBlockWindow {
     content: string;
     outline: DocumentOutlineItem[];
     blockStart: number;
-    blockLimit: number;
+    blockLimit?: number;
     returnedBlocks: number;
-    totalBlocks: number;
-    tokenBudget: number;
+    totalBlocks: number | null;
+    outlineScope?: 'window';
+    limitReason?: 'content_bytes' | 'block_limit' | 'token_budget';
+    contentBytes?: number;
+    maxContentBytes?: number;
+    tokenBudget?: number;
     estimatedTokens: number;
     tokenMode: typeof APPROX_TOKEN_MODE;
     truncated: boolean;
@@ -47,8 +51,10 @@ export interface DocumentBlockWindow {
     blockRefs?: DocumentBlockRef[];
 }
 
-export const DEFAULT_DOCUMENT_BLOCK_LIMIT = 50;
-export const DEFAULT_DOCUMENT_TOKEN_BUDGET = 2000;
+export const MAX_DOCUMENT_CONTENT_BYTES = 256 * 1024;
+export const MAX_DOCUMENT_RESPONSE_BYTES = 1024 * 1024;
+const MAX_WINDOW_BLOCKS = 2000;
+const MAX_SCANNED_BLOCKS = 50000;
 const SOFT_DOCUMENT_TOKEN_BUDGET_RATIO = 1.15;
 
 const SELF_CONTAINED_BLOCK_TYPES = new Set([
@@ -179,8 +185,8 @@ function buildWindowFromMarkdownBlocks(
     options: DocumentBlockWindowOptions,
 ): DocumentBlockWindow {
     const blockStart = options.blockStart ?? 0;
-    const blockLimit = options.blockLimit ?? DEFAULT_DOCUMENT_BLOCK_LIMIT;
-    const tokenBudget = options.tokenBudget ?? DEFAULT_DOCUMENT_TOKEN_BUDGET;
+    const blockLimit = options.blockLimit ?? MAX_WINDOW_BLOCKS;
+    const tokenBudget = options.tokenBudget ?? Infinity;
     const includeBlockIds = options.includeBlockIds ?? false;
     const totalBlocks = blocks.length;
     const contentParts: string[] = [];
@@ -229,10 +235,10 @@ function buildWindowFromMarkdownBlocks(
         content: contentParts.join('\n\n'),
         outline: buildOutline(blocks, markdownBlocks, includeBlockIds),
         blockStart,
-        blockLimit,
+        blockLimit: options.blockLimit,
         returnedBlocks,
         totalBlocks,
-        tokenBudget,
+        tokenBudget: options.tokenBudget,
         estimatedTokens,
         tokenMode: APPROX_TOKEN_MODE,
         truncated: hasNextWindow,
@@ -266,6 +272,9 @@ export function createSyntheticDocumentBlockWindow(
     content: string,
     options: DocumentBlockWindowOptions = {},
 ): DocumentBlockWindow {
+    if (new TextEncoder().encode(content).byteLength > MAX_DOCUMENT_CONTENT_BYTES) {
+        throw new Error('Virtual document exceeds the 256 KiB content limit. Narrow the content before reading.');
+    }
     const blocks = content.length > 0 ? [{ id: 'synthetic', type: 'p' }] : [];
     const window = buildWindowFromMarkdownBlocks(blocks, content.length > 0 ? [content] : [], {
         ...options,
@@ -277,21 +286,97 @@ export function createSyntheticDocumentBlockWindow(
     };
 }
 
+// Enumerate lazily: a window must not recursively load the whole document first.
+async function* iterateDocumentBlocks(client: SiYuanClient, documentId: string): AsyncGenerator<OrderedDocumentBlock> {
+    const visited = new Set([documentId]);
+    let metadataBytes = 0;
+    async function* visit(id: string, depth: number): AsyncGenerator<OrderedDocumentBlock> {
+        if (depth > 128) throw new Error('Document nesting exceeds the safe read depth (128). Read a narrower subtree.');
+        const children = await blockApi.getChildBlocks(client, id, MAX_DOCUMENT_RESPONSE_BYTES);
+        metadataBytes += new TextEncoder().encode(JSON.stringify(children)).byteLength;
+        if (metadataBytes > 4 * MAX_DOCUMENT_RESPONSE_BYTES) throw new Error('Document enumeration exceeds the 4 MiB metadata limit. Read a narrower subtree.');
+        for (const child of children) {
+            const block = toOrderedBlock(child);
+            if (!block || visited.has(block.id)) continue;
+            if (visited.size > MAX_SCANNED_BLOCKS) throw new Error('Document enumeration exceeds the 50000-block safety limit. Read a narrower subtree.');
+            visited.add(block.id);
+            yield block;
+            if (!blockContainsChildrenInOwnKramdown(block)) yield* visit(block.id, depth + 1);
+        }
+    }
+    yield* visit(documentId, 0);
+}
+
 export async function readDocumentBlockWindow(
     client: SiYuanClient,
     documentId: string,
     options: DocumentBlockWindowOptions = {},
     knownBlocks?: OrderedDocumentBlock[],
 ): Promise<DocumentBlockWindow> {
-    const blocks = knownBlocks ?? await listDocumentBlocksInTreeOrder(client, documentId);
-    const markdownBlocks = await Promise.all(blocks.map(async (block) => {
-        const result = await blockApi.getBlockKramdown(client, block.id);
-        return toEditableMarkdownBlock({
-            kramdown: typeof result.kramdown === 'string' ? result.kramdown : '',
-            type: block.type,
-        });
-    }));
-    return buildWindowFromMarkdownBlocks(blocks, markdownBlocks, options);
+    const blockStart = options.blockStart ?? 0;
+    const limit = options.blockLimit ?? MAX_WINDOW_BLOCKS;
+    const budget = options.tokenBudget ?? Infinity;
+    const blocks: OrderedDocumentBlock[] = [];
+    const markdownBlocks: string[] = [];
+    let blockIndex = 0;
+    let contentBytes = 0;
+    let contentChars = 0;
+    let containsBody = false;
+    let nonEmptyBlocks = 0;
+    let limitReason: DocumentBlockWindow['limitReason'];
+    for await (const block of knownBlocks ?? iterateDocumentBlocks(client, documentId)) {
+        if (blockIndex < blockStart) { blockIndex++; continue; }
+        if (blocks.length >= limit) { limitReason = 'block_limit'; break; }
+        if (containsBody && approximateTokensFromChars(contentChars) > budget) { limitReason = 'token_budget'; break; }
+        // Only one bounded request is in flight. Never prefetch the rest of the document.
+        const result = await blockApi.getBlockKramdown(client, block.id, MAX_DOCUMENT_RESPONSE_BYTES);
+        const markdown = toEditableMarkdownBlock({ kramdown: typeof result.kramdown === 'string' ? result.kramdown : '', type: block.type });
+        const bytes = new TextEncoder().encode(markdown).byteLength;
+        if (bytes > MAX_DOCUMENT_CONTENT_BYTES) {
+            if (blocks.length) { limitReason = 'content_bytes'; break; }
+            throw new Error(`Block ${block.id} exceeds the 256 KiB content limit. Inspect or split this block before reading; it cannot be returned whole safely.`);
+        }
+        const separator = markdown.length && nonEmptyBlocks ? 2 : 0;
+        const nextBytes = contentBytes + separator + bytes;
+        const nextChars = contentChars + separator + markdown.length;
+        const nextTokens = approximateTokensFromChars(nextChars);
+        if (nextBytes > MAX_DOCUMENT_CONTENT_BYTES) { limitReason = 'content_bytes'; break; }
+        if (markdown.length && nextTokens > budget && nonEmptyBlocks && containsBody
+            && nextTokens > Math.ceil(budget * SOFT_DOCUMENT_TOKEN_BUDGET_RATIO)) {
+            limitReason = 'token_budget'; break;
+        }
+        blocks.push(block);
+        markdownBlocks.push(markdown);
+        contentBytes = nextBytes;
+        contentChars = nextChars;
+        blockIndex++;
+        if (markdown.length) {
+            nonEmptyBlocks++;
+            if (block.type !== 'h') containsBody = true;
+        }
+    }
+    const hasNextWindow = limitReason !== undefined;
+    const estimatedTokens = approximateTokensFromChars(contentChars);
+    return {
+        content: markdownBlocks.filter(Boolean).join('\n\n'),
+        outline: buildOutline(blocks, markdownBlocks, options.includeBlockIds ?? false)
+            .map(item => ({ ...item, blockIndex: item.blockIndex + blockStart })),
+        outlineScope: 'window',
+        blockStart,
+        blockLimit: options.blockLimit,
+        returnedBlocks: blocks.length,
+        totalBlocks: hasNextWindow ? null : blockIndex,
+        tokenBudget: options.tokenBudget,
+        estimatedTokens,
+        tokenMode: APPROX_TOKEN_MODE,
+        contentBytes,
+        maxContentBytes: MAX_DOCUMENT_CONTENT_BYTES,
+        truncated: hasNextWindow,
+        hasNextWindow,
+        ...(hasNextWindow ? { nextBlockStart: blockStart + blocks.length, limitReason } : {}),
+        ...(estimatedTokens > budget ? { budgetExceeded: true } : {}),
+        ...(options.includeBlockIds ? { blockRefs: blocks.map((block, index) => ({ ...block, blockIndex: blockStart + index })) } : {}),
+    };
 }
 
 export async function readDocumentEditableMarkdown(
