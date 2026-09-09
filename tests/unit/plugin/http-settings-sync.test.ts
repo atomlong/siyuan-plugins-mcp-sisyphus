@@ -295,6 +295,7 @@ describe('HTTP settings sync', () => {
         } as any;
 
         (globalThis as any).window = {
+            location: { origin: 'http://127.0.0.1:52208' },
             siyuan: {
                 layout: {
                     rightDock: {
@@ -478,6 +479,35 @@ describe('HTTP settings sync', () => {
             port: 39002,
             token: 'another-token',
         }));
+    });
+
+    it('passes the current workspace origin and token together, including non-default ports', async () => {
+        (globalThis as any).window.siyuan.config.api = { token: 'workspace-token' };
+        await plugin.startHttpServer();
+        expect(launcherStart).toHaveBeenCalledWith(expect.objectContaining({
+            siyuanApiUrl: 'http://127.0.0.1:52208', siyuanToken: 'workspace-token',
+        }));
+        (globalThis as any).window.location.origin = 'https://notes.example.test:8443';
+        await plugin.startHttpServer();
+        expect(launcherStart).toHaveBeenLastCalledWith(expect.objectContaining({ siyuanApiUrl: 'https://notes.example.test:8443' }));
+    });
+
+    it.each([
+        ['https://127.0.0.1:56602', 'http://127.0.0.1:56602'],
+        ['https://localhost:56602', 'http://localhost:56602'],
+        ['https://[::1]:56602', 'http://[::1]:56602'],
+        ['https://127.0.0.1', 'http://127.0.0.1:443'],
+        ['https://127.0.0.1.example.test:8443', 'https://127.0.0.1.example.test:8443'],
+    ])('connects to the exact desktop kernel port for %s', async (origin, expected) => {
+        (globalThis as any).window.location.origin = origin;
+        await plugin.startHttpServer();
+        expect(launcherStart).toHaveBeenLastCalledWith(expect.objectContaining({ siyuanApiUrl: expected }));
+    });
+
+    it('refuses to send the workspace token to a guessed origin', async () => {
+        (globalThis as any).window.location.origin = 'null';
+        await expect(plugin.startHttpServer()).rejects.toThrow('current SiYuan workspace API origin');
+        expect(launcherStart).not.toHaveBeenCalled();
     });
 
     it('rejects HTTPS start when TLS cert or key path is missing', async () => {

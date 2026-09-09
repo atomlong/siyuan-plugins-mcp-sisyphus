@@ -60,3 +60,17 @@ Useful locations:
 Common stdio error:
 
 - `Failed to reconnect ... -32000`: often means the MCP client could not start `mcp-server.cjs` or the server could not reach `SIYUAN_API_URL`. For Docker, first check that `args` points to a client-side file path and `SIYUAN_API_URL` points to the reachable SiYuan API endpoint, usually `http://<docker-host-ip>:6806`.
+
+Desktop HTTP MCP uses the current workspace window’s actual API origin, including random ports, and refuses to start when that origin is unavailable. HTTP 401 means authentication failure, 403 means HTTP access denied, and 429 means rate limiting; these responses no longer instruct users to start SiYuan. Standalone deployments still use `SIYUAN_API_URL`. The copied AI setup prompt asks for global versus project/workspace scope before updating configuration.
+
+## Enabling database filters breaks MCP schema loading
+
+Errors mentioning `unresolvable $ref`, `$defs`, or `filters/items` can occur while loading the tool list, before any note operation. Older aggregated schemas dropped recursive filter definitions. After updating to a version containing the fix, restart the MCP Server actually used by your client (including its stdio child process) and refresh the tool list. If updating is not yet possible, temporarily disable the database `set_filters` action and reconnect.
+
+If schema loading succeeds but `set_filters` intermittently returns `state_changed` after preflight, older code may also mistake DOM attribute serialization order for a content change. View-configuration preflights now normalize carrier attribute order while preserving attribute values and database bindings; actual state drift still rejects the write.
+
+## Desktop kernel is running but MCP returns kernel_unreachable
+
+A desktop workspace may use `https://127.0.0.1:<dynamic-port>`. Electron can accept its local certificate while the MCP Node child rejects it with `fetch failed`. For loopback origins, the launcher uses the kernel HTTP interface on the same workspace port; remote HTTPS origins keep TLS verification. After updating dev artifacts, disable and re-enable Sisyphus in plugin settings so the launcher rereads the address.
+
+With multiple workspaces open, generated stdio configurations and AI setup prompts use each window's kernel origin, paired with that workspace's script path and token, instead of a fixed port 6806. Existing client configurations must be recopied, including after the dynamic kernel port changes. If both workspaces run MCP HTTP servers, assign different MCP listening ports.

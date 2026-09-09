@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getWorkspaceApiUrl } from "@/shared/workspace-api-url";
     import { onDestroy, onMount } from "svelte";
     import { showMessage } from "siyuan";
 
@@ -235,7 +236,7 @@
             command: "node",
             args: [getWorkspaceScriptPath()],
             env: {
-                SIYUAN_API_URL: "http://127.0.0.1:6806",
+                SIYUAN_API_URL: getSiYuanApiUrl(),
                 SIYUAN_TOKEN: getSiYuanApiToken(),
             },
         };
@@ -390,10 +391,7 @@
     }
 
     function getSiYuanApiUrl(): string {
-        const origin = window?.location?.origin;
-        return typeof origin === "string" && /^https?:\/\//.test(origin)
-            ? origin
-            : "http://127.0.0.1:6806";
+        return getWorkspaceApiUrl(window?.location?.origin);
     }
 
     function generateMcpAiSetupPrompt(): string {
@@ -408,7 +406,7 @@ Use this configuration:
 \`\`\`
 
 You are authorized to inspect and update the current client's MCP configuration. Please:
-1. Detect the current OS and the actual configuration file or settings entry used by this client.
+1. If I have not already specified the configuration scope, ask whether I want user-wide/global configuration or configuration for the current project/workspace, and wait for my answer before making changes. Then detect the OS and locate the configuration entry for that scope. If the client does not support the chosen scope, explain that limitation before changing another scope.
 2. Read the existing configuration first, merge only the "{{serverName}}" server entry, and preserve all other servers and settings.
 3. Treat every token in this prompt as a secret. Do not echo it in logs, summaries, or your final response.
 4. For stdio, verify that Node.js and the server script exist. For HTTP/HTTPS, verify that the endpoint is reachable; if the service is stopped, tell me what must be enabled in SiYuan.

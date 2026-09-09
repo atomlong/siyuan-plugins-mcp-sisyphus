@@ -620,7 +620,8 @@ describe('MCP Server Integration', () => {
             const instructions = buildServerInstructions('');
 
             expect(instructions).toContain('block(action=”update”) is best for single-block replacement');
-            expect(instructions).toContain('Multi-line markdown may be truncated to the first line by SiYuan');
+            expect(instructions).toContain('A table or fenced code block may contain multiple lines.');
+            expect(instructions).not.toContain('Multi-line markdown may be truncated');
             expect(instructions).toContain('block(action=”append”), prepend, or insert');
         });
 

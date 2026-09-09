@@ -399,7 +399,7 @@
 | 173 | POST | `/api/lute/html2BlockDOM` | lute | `html2BlockDOM` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:219` |
 | 174 | POST | `/api/lute/copyStdMarkdown` | lute | `copyStdMarkdown` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:220` |
 | 175 | POST | `/api/lute/md2html` | lute | `md2HTML` | ✓ |  |  | 条件可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:221` |
-| 176 | POST | `/api/query/sql` | query | `SQL` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | api-wrapper:src/api/search.ts:31<br>core:src/core/write-safety-coordinator.ts:879<br>core:src/core/write-safety-coordinator.ts:959<br>tool-direct:src/tools/block/handlers.ts:64 | 见官方 API 文档 | `kernel/api/router.go:223` |
+| 176 | POST | `/api/query/sql` | query | `SQL` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | api-wrapper:src/api/search.ts:31<br>core:src/core/write-safety-coordinator.ts:879<br>core:src/core/write-safety-coordinator.ts:965<br>tool-direct:src/tools/block/handlers.ts:64 | 见官方 API 文档 | `kernel/api/router.go:223` |
 | 177 | POST | `/api/sqlite/flushTransaction` | sqlite | `flushTransaction` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | — | 见官方 API 文档 | `kernel/api/router.go:224` |
 | 178 | POST | `/api/search/searchTag` | search | `searchTag` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | api-wrapper:src/api/search.ts:37 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:226` |
 | 179 | POST | `/api/search/searchTemplate` | search | `searchTemplate` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | api-wrapper:src/api/template.ts:154 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:227` |
@@ -417,16 +417,16 @@
 | 191 | POST | `/api/search/getAssetContentByPath` | search | `getAssetContentByPath` | ✓ |  |  | 条件可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:239` |
 | 192 | POST | `/api/search/listInvalidBlockRefs` | search | `listInvalidBlockRefs` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/search.ts:136 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:240` |
 | 193 | POST | `/api/search/semanticSearchBlock` | search | `semanticSearchBlock` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/search.ts:26 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:241` |
-| 194 | POST | `/api/block/getBlockInfo` | block | `getBlockInfo` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:194<br>core:src/core/write-safety-coordinator.ts:594<br>core:src/core/write-safety-coordinator.ts:937<br>tool-direct:src/tools/search/handlers.ts:230 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:243` |
-| 195 | POST | `/api/block/getBlockDOM` | block | `getBlockDOM` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:206<br>core:src/core/write-safety-coordinator.ts:593<br>core:src/core/write-safety-coordinator.ts:1599 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:244` |
+| 194 | POST | `/api/block/getBlockInfo` | block | `getBlockInfo` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:198<br>core:src/core/write-safety-coordinator.ts:594<br>core:src/core/write-safety-coordinator.ts:937<br>tool-direct:src/tools/search/handlers.ts:230 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:243` |
+| 195 | POST | `/api/block/getBlockDOM` | block | `getBlockDOM` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:210<br>core:src/core/write-safety-coordinator.ts:593<br>core:src/core/write-safety-coordinator.ts:941<br>core:src/core/write-safety-coordinator.ts:1626 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:244` |
 | 196 | POST | `/api/block/getBlockDOMs` | block | `getBlockDOMs` | ✓ |  |  | 条件可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:245` |
 | 197 | POST | `/api/block/getBlockDOMWithEmbed` | block | `getBlockDOMWithEmbed` | ✓ |  |  | 条件可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:246` |
 | 198 | POST | `/api/block/getBlockDOMsWithEmbed` | block | `getBlockDOMsWithEmbed` | ✓ |  |  | 条件可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:247` |
-| 199 | POST | `/api/block/getBlockKramdown` | block | `getBlockKramdown` | ✓ |  |  | 条件可用 | 官方公开 |  | api-wrapper:src/api/block.ts:142<br>core:src/core/write-safety-coordinator.ts:939<br>core:src/core/write-safety-coordinator.ts:1054 | 见官方 API 文档 | `kernel/api/router.go:248` |
-| 200 | POST | `/api/block/getBlockKramdowns` | block | `getBlockKramdowns` | ✓ |  |  | 条件可用 | 内部 |  | api-wrapper:src/api/block.ts:153 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:249` |
-| 201 | POST | `/api/block/getChildBlocks` | block | `getChildBlocks` | ✓ | ✓ |  | 不可用 | 官方公开 |  | api-wrapper:src/api/block.ts:161<br>core:src/core/write-safety-coordinator.ts:940 | 见官方 API 文档 | `kernel/api/router.go:250` |
+| 199 | POST | `/api/block/getBlockKramdown` | block | `getBlockKramdown` | ✓ |  |  | 条件可用 | 官方公开 |  | api-wrapper:src/api/block.ts:143<br>api-wrapper:src/api/block.ts:144<br>core:src/core/write-safety-coordinator.ts:939<br>core:src/core/write-safety-coordinator.ts:1081 | 见官方 API 文档 | `kernel/api/router.go:248` |
+| 200 | POST | `/api/block/getBlockKramdowns` | block | `getBlockKramdowns` | ✓ |  |  | 条件可用 | 内部 |  | api-wrapper:src/api/block.ts:155 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:249` |
+| 201 | POST | `/api/block/getChildBlocks` | block | `getChildBlocks` | ✓ | ✓ |  | 不可用 | 官方公开 |  | api-wrapper:src/api/block.ts:164<br>api-wrapper:src/api/block.ts:165<br>core:src/core/write-safety-coordinator.ts:940 | 见官方 API 文档 | `kernel/api/router.go:250` |
 | 202 | POST | `/api/block/getTailChildBlocks` | block | `getTailChildBlocks` | ✓ | ✓ |  | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:251` |
-| 203 | POST | `/api/block/getBlockBreadcrumb` | block | `getBlockBreadcrumb` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:202 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:252` |
+| 203 | POST | `/api/block/getBlockBreadcrumb` | block | `getBlockBreadcrumb` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:206 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:252` |
 | 204 | POST | `/api/block/getBlockBreadcrumbChildren` | block | `getBlockBreadcrumbChildren` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:253` |
 | 205 | POST | `/api/block/getBlockIndex` | block | `getBlockIndex` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:254` |
 | 206 | POST | `/api/block/getBlocksIndexes` | block | `getBlocksIndexes` | ✓ |  |  | 条件可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:255` |
@@ -437,25 +437,25 @@
 | 211 | POST | `/api/block/getRefText` | block | `getRefText` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:260` |
 | 212 | POST | `/api/block/getDOMText` | block | `getDOMText` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:261` |
 | 213 | POST | `/api/block/getTreeStat` | block | `getTreeStat` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:262` |
-| 214 | POST | `/api/block/getBlocksWordCount` | block | `getBlocksWordCount` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:214 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:263` |
+| 214 | POST | `/api/block/getBlocksWordCount` | block | `getBlocksWordCount` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:218 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:263` |
 | 215 | POST | `/api/block/getContentWordCount` | block | `getContentWordCount` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:264` |
-| 216 | POST | `/api/block/getRecentUpdatedBlocks` | block | `getRecentUpdatedBlocks` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:210 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:265` |
-| 217 | POST | `/api/block/getDocInfo` | block | `getDocInfo` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:169<br>ui:src/ui/version-control/SnapshotPanel.svelte:385<br>ui:src/ui/version-control/VersionDiffPanel.svelte:704 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:266` |
-| 218 | POST | `/api/block/getDocsInfo` | block | `getDocsInfo` | ✓ |  |  | 条件可用 | 内部 |  | api-wrapper:src/api/block.ts:265 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:267` |
-| 219 | POST | `/api/block/checkBlockExist` | block | `checkBlockExist` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:190<br>core:src/core/write-safety-coordinator.ts:926 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:268` |
+| 216 | POST | `/api/block/getRecentUpdatedBlocks` | block | `getRecentUpdatedBlocks` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:214 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:265` |
+| 217 | POST | `/api/block/getDocInfo` | block | `getDocInfo` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:173<br>ui:src/ui/version-control/SnapshotPanel.svelte:385<br>ui:src/ui/version-control/VersionDiffPanel.svelte:704 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:266` |
+| 218 | POST | `/api/block/getDocsInfo` | block | `getDocsInfo` | ✓ |  |  | 条件可用 | 内部 |  | api-wrapper:src/api/block.ts:269 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:267` |
+| 219 | POST | `/api/block/checkBlockExist` | block | `checkBlockExist` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/block.ts:194<br>core:src/core/write-safety-coordinator.ts:926 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:268` |
 | 220 | POST | `/api/block/checkBlocksExist` | block | `checkBlocksExist` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:269` |
 | 221 | POST | `/api/block/getUnfoldedParentID` | block | `getUnfoldedParentID` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:270` |
 | 222 | POST | `/api/block/checkBlockFold` | block | `checkBlockFold` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:271` |
 | 223 | POST | `/api/block/insertBlock` | block | `insertBlock` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | api-wrapper:src/api/block.ts:42<br>ui:src/ui/version-control/VersionDiffPanel.svelte:837 | 见官方 API 文档 | `kernel/api/router.go:272` |
-| 224 | POST | `/api/block/batchInsertBlock` | block | `batchInsertBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | api-wrapper:src/api/block.ts:227 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:273` |
+| 224 | POST | `/api/block/batchInsertBlock` | block | `batchInsertBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | api-wrapper:src/api/block.ts:231 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:273` |
 | 225 | POST | `/api/block/prependBlock` | block | `prependBlock` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | api-wrapper:src/api/block.ts:59 | 见官方 API 文档 | `kernel/api/router.go:274` |
 | 226 | POST | `/api/block/batchPrependBlock` | block | `batchPrependBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:275` |
 | 227 | POST | `/api/block/appendBlock` | block | `appendBlock` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | api-wrapper:src/api/block.ts:76 | 见官方 API 文档 | `kernel/api/router.go:276` |
 | 228 | POST | `/api/block/batchAppendBlock` | block | `batchAppendBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:277` |
-| 229 | POST | `/api/block/appendDailyNoteBlock` | block | `appendDailyNoteBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | api-wrapper:src/api/block.ts:247 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:278` |
-| 230 | POST | `/api/block/prependDailyNoteBlock` | block | `prependDailyNoteBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | api-wrapper:src/api/block.ts:256 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:279` |
+| 229 | POST | `/api/block/appendDailyNoteBlock` | block | `appendDailyNoteBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | api-wrapper:src/api/block.ts:251 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:278` |
+| 230 | POST | `/api/block/prependDailyNoteBlock` | block | `prependDailyNoteBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | api-wrapper:src/api/block.ts:260 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:279` |
 | 231 | POST | `/api/block/updateBlock` | block | `updateBlock` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | api-wrapper:src/api/block.ts:93<br>ui:src/ui/version-control/VersionDiffPanel.svelte:817 | 见官方 API 文档 | `kernel/api/router.go:280` |
-| 232 | POST | `/api/block/batchUpdateBlock` | block | `batchUpdateBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | api-wrapper:src/api/block.ts:238 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:281` |
+| 232 | POST | `/api/block/batchUpdateBlock` | block | `batchUpdateBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | api-wrapper:src/api/block.ts:242 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:281` |
 | 233 | POST | `/api/block/deleteBlock` | block | `deleteBlock` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | api-wrapper:src/api/block.ts:101<br>ui:src/ui/version-control/VersionDiffPanel.svelte:823 | 见官方 API 文档 | `kernel/api/router.go:282` |
 | 234 | POST | `/api/block/moveBlock` | block | `moveBlock` | ✓ | ✓ | ✓ | 不可用 | 官方公开 |  | api-wrapper:src/api/block.ts:118 | 见官方 API 文档 | `kernel/api/router.go:283` |
 | 235 | POST | `/api/block/moveOutlineHeading` | block | `moveOutlineHeading` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:284` |
@@ -469,7 +469,7 @@
 | 243 | POST | `/api/block/getHeadingChildrenIDs` | block | `getHeadingChildrenIDs` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:292` |
 | 244 | POST | `/api/block/getHeadingChildrenDOM` | block | `getHeadingChildrenDOM` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:293` |
 | 245 | POST | `/api/block/swapBlockRef` | block | `swapBlockRef` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:294` |
-| 246 | POST | `/api/block/transferBlockRef` | block | `transferBlockRef` | ✓ | ✓ | ✓ | 不可用 | 官方公开 | ✓ | api-wrapper:src/api/block.ts:186 | 见官方 API 文档 | `kernel/api/router.go:295` |
+| 246 | POST | `/api/block/transferBlockRef` | block | `transferBlockRef` | ✓ | ✓ | ✓ | 不可用 | 官方公开 | ✓ | api-wrapper:src/api/block.ts:190 | 见官方 API 文档 | `kernel/api/router.go:295` |
 | 247 | POST | `/api/block/getBlockSiblingID` | block | `getBlockSiblingID` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:296` |
 | 248 | POST | `/api/block/getBlockRelevantIDs` | block | `getBlockRelevantIDs` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:297` |
 | 249 | POST | `/api/block/getBlockTreeInfos` | block | `getBlockTreeInfos` | ✓ |  |  | 条件可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:298` |
@@ -477,8 +477,8 @@
 | 251 | POST | `/api/block/appendHeadingChildren` | block | `appendHeadingChildren` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:300` |
 | 252 | POST | `/api/block/updateTaskListItemMarker` | block | `updateTaskListItemMarker` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:301` |
 | 253 | POST | `/api/block/batchUpdateTaskListItemMarker` | block | `batchUpdateTaskListItemMarker` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:302` |
-| 254 | POST | `/api/file/getFile` | file | `getFile` | ✓ |  |  | 条件可用 | 官方公开 | ✓ | api-wrapper:src/api/client.ts:112<br>ui:src/ui/components/ToolPuppy.svelte:24<br>ui:src/ui/setting/mcp-config/TelemetryPanel.svelte:109<br>ui:src/ui/setting/mcp-config/TelemetryPanel.svelte:170<br>ui:src/ui/setting/mcp-config/TelemetryPanel.svelte:205 | 见官方 API 文档 | `kernel/api/router.go:304` |
-| 255 | POST | `/api/file/putFile` | file | `putFile` | ✓ | ✓ | ✓ | 不可用 | 官方公开 | ✓ | api-wrapper:src/api/client.ts:160<br>core:src/core/help.ts:101<br>ui:src/ui/setting/mcp-config/TelemetryPanel.svelte:153 | 见官方 API 文档 | `kernel/api/router.go:305` |
+| 254 | POST | `/api/file/getFile` | file | `getFile` | ✓ |  |  | 条件可用 | 官方公开 | ✓ | api-wrapper:src/api/client.ts:119<br>ui:src/ui/components/ToolPuppy.svelte:24<br>ui:src/ui/setting/mcp-config/TelemetryPanel.svelte:109<br>ui:src/ui/setting/mcp-config/TelemetryPanel.svelte:170<br>ui:src/ui/setting/mcp-config/TelemetryPanel.svelte:205 | 见官方 API 文档 | `kernel/api/router.go:304` |
+| 255 | POST | `/api/file/putFile` | file | `putFile` | ✓ | ✓ | ✓ | 不可用 | 官方公开 | ✓ | api-wrapper:src/api/client.ts:197<br>core:src/core/help.ts:101<br>ui:src/ui/setting/mcp-config/TelemetryPanel.svelte:153 | 见官方 API 文档 | `kernel/api/router.go:305` |
 | 256 | POST | `/api/file/copyFile` | file | `copyFile` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:306` |
 | 257 | POST | `/api/file/globalCopyFiles` | file | `globalCopyFiles` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:307` |
 | 258 | POST | `/api/file/workspaceCopyFiles` | file | `workspaceCopyFiles` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:308` |
@@ -493,9 +493,9 @@
 | 267 | POST | `/api/ref/getBackmentionDoc` | ref | `getBackmentionDoc` | ✓ |  |  | 条件可用 | 内部 | ✓ | api-wrapper:src/api/search.ts:57 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:318` |
 | 268 | POST | `/api/attr/getBookmarkLabels` | attr | `getBookmarkLabels` | ✓ |  |  | 条件可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:320` |
 | 269 | POST | `/api/attr/resetBlockAttrs` | attr | `deprecated` | ✓ | ✓ | ✓ | 不可用 | 内部/弃用 |  | — | 未知（内部） | `kernel/api/router.go:321` |
-| 270 | POST | `/api/attr/setBlockAttrs` | attr | `setBlockAttrs` | ✓ | ✓ | ✓ | 不可用 | 官方公开 | ✓ | api-wrapper:src/api/block.ts:291<br>ui:src/ui/version-control/SnapshotPanel.svelte:176 | 见官方 API 文档 | `kernel/api/router.go:322` |
+| 270 | POST | `/api/attr/setBlockAttrs` | attr | `setBlockAttrs` | ✓ | ✓ | ✓ | 不可用 | 官方公开 | ✓ | api-wrapper:src/api/block.ts:295<br>ui:src/ui/version-control/SnapshotPanel.svelte:176 | 见官方 API 文档 | `kernel/api/router.go:322` |
 | 271 | POST | `/api/attr/batchSetBlockAttrs` | attr | `batchSetBlockAttrs` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:323` |
-| 272 | POST | `/api/attr/getBlockAttrs` | attr | `getBlockAttrs` | ✓ |  |  | 条件可用 | 官方公开 | ✓ | api-wrapper:src/api/block.ts:299<br>core:src/core/write-safety-coordinator.ts:592<br>core:src/core/write-safety-coordinator.ts:938<br>ui:src/ui/version-control/SnapshotPanel.svelte:166 | 见官方 API 文档 | `kernel/api/router.go:324` |
+| 272 | POST | `/api/attr/getBlockAttrs` | attr | `getBlockAttrs` | ✓ |  |  | 条件可用 | 官方公开 | ✓ | api-wrapper:src/api/block.ts:303<br>core:src/core/write-safety-coordinator.ts:592<br>core:src/core/write-safety-coordinator.ts:938<br>ui:src/ui/version-control/SnapshotPanel.svelte:166 | 见官方 API 文档 | `kernel/api/router.go:324` |
 | 273 | POST | `/api/attr/batchGetBlockAttrs` | attr | `batchGetBlockAttrs` | ✓ |  |  | 条件可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:325` |
 | 274 | POST | `/api/cloud/getCloudSpace` | cloud | `getCloudSpace` | ✓ | ✓ |  | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:327` |
 | 275 | POST | `/api/cloud/setCloudReminder` | cloud | `setCloudReminder` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:328` |
@@ -738,7 +738,7 @@
 | 512 | POST | `/api/av/getAttributeViewPrimaryKeyValues` | av | `getAttributeViewPrimaryKeyValues` | ✓ | ✓ | ✓ | 不可用 | 官方公开 | ✓ | api-wrapper:src/api/av.ts:212 | 见官方 API 文档 | `kernel/api/router.go:583` |
 | 513 | POST | `/api/av/getAttributeViewRelationCandidates` | av | `getAttributeViewRelationCandidates` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:584` |
 | 514 | POST | `/api/av/setDatabaseBlockView` | av | `setDatabaseBlockView` | ✓ | ✓ | ✓ | 不可用 | 内部 |  | — | 未知（内部） | `kernel/api/router.go:585` |
-| 515 | POST | `/api/av/getMirrorDatabaseBlocks` | av | `getMirrorDatabaseBlocks` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | api-wrapper:src/api/av.ts:200<br>core:src/core/write-safety-coordinator.ts:1609 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:586` |
+| 515 | POST | `/api/av/getMirrorDatabaseBlocks` | av | `getMirrorDatabaseBlocks` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | api-wrapper:src/api/av.ts:200<br>core:src/core/write-safety-coordinator.ts:1636 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:586` |
 | 516 | POST | `/api/av/getAttributeViewKeysByAvID` | av | `getAttributeViewKeysByAvID` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:587` |
 | 517 | POST | `/api/av/getAttributeViewKeysByID` | av | `getAttributeViewKeysByID` | ✓ |  | ✓ | 不可用 | 内部 | ✓ | — | 未知（内部） | `kernel/api/router.go:588` |
 | 518 | POST | `/api/av/duplicateAttributeViewBlock` | av | `duplicateAttributeViewBlock` | ✓ | ✓ | ✓ | 不可用 | 内部 | ✓ | api-wrapper:src/api/av.ts:186 | 见插件 wrapper 类型；内核未公开稳定 schema | `kernel/api/router.go:589` |

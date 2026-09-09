@@ -48,6 +48,8 @@ Credentials accept either `sha256:v1:<4-64 hex digits>` or bare `<4-64 hex digit
 
 If active hashes in the same operation scope share four digits, a new preflight automatically returns the shortest unique prefix of five or more digits. If a previously issued short prefix becomes ambiguous later, the server neither guesses nor returns candidate hashes; it requires another preflight. Leases exist only in memory, contain no note body, and disappear on plugin/MCP Server restart. A committed or uncertain write also consumes its lease.
 
+`block.update` reports the number of distinct targets from either `id` or `items[].id` in `targetCount`. A batch of 11 different blocks reports 11; repeated IDs count once. Block state includes Kramdown, block attributes, and DOM, so inline changes such as block-reference `data-subtype`, `strong`, or `em` change the hash. DOM attribute order and creation/update timestamps do not count as content changes. Attribute drift after preflight returns `state_changed`; a successful attribute edit returns `committed`, while an unchanged readback returns `no_change`.
+
 ## Correctness properties
 
 - State is canonicalized with stable object-key ordering and preserved array ordering, then hashed with versioned SHA-256.

@@ -9,6 +9,13 @@ export type { SiYuanResponse } from '../types/shared';
 
 export type RequestSemantics = 'read' | 'write';
 
+export class ResponseSizeLimitError extends Error {
+    readonly code = 'response_too_large';
+    constructor(readonly maxBytes: number) {
+        super(`SiYuan response exceeds the ${maxBytes}-byte read limit. Narrow the requested content.`);
+    }
+}
+
 /** A write may already have reached SiYuan when transport acknowledgement fails. */
 export class WriteOutcomeUnknownError extends Error {
     readonly code = 'outcome_unknown';
@@ -75,15 +82,15 @@ export class SiYuanClient {
                 if (!response.ok) {
                     // Do not retry 4xx (except 429).
                     if (response.status >= 400 && response.status < 500 && response.status !== 429) {
+                        await response.body?.cancel().catch(() => {});
                         throw Object.assign(
                             new Error(`HTTP error: ${response.status} ${response.statusText}`),
                             { retryable: false },
                         );
                     }
-                    // 5xx / 429 — drain body so the connection can be reused, then retry.
-                    await response.arrayBuffer().catch(() => {});
+                    // Cancel instead of buffering an arbitrarily large error response.
+                    await response.body?.cancel().catch(() => {});
                     lastError = new Error(`HTTP error: ${response.status} ${response.statusText}`);
-                    if (attempt < maxRetries) continue;
                     throw lastError;
                 }
                 return response;
@@ -116,9 +123,39 @@ export class SiYuanClient {
         }, 'read');
     }
 
-    private async readData<T>(url: string, init: RequestInit, semantics: RequestSemantics): Promise<T> {
+    private async readData<T>(url: string, init: RequestInit, semantics: RequestSemantics, maxResponseBytes?: number): Promise<T> {
         const response = await this.fetchWithTimeout(url, init, semantics);
-        const rawText = await response.text();
+        let rawText: string;
+        if (maxResponseBytes !== undefined) {
+            const declaredSize = Number(response.headers.get('content-length'));
+            if (declaredSize > maxResponseBytes) {
+                await response.body?.cancel().catch(() => {});
+                throw new ResponseSizeLimitError(maxResponseBytes);
+            }
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
+            let bytes = 0;
+            rawText = '';
+            const timer = setTimeout(() => { void reader?.cancel().catch(() => {}); }, this.timeout);
+            const deadline = Date.now() + this.timeout;
+            try {
+                while (reader) {
+                    const { done, value } = await reader.read();
+                    if (Date.now() >= deadline) throw new Error(`Request timeout after ${this.timeout}ms`);
+                    if (done) break;
+                    bytes += value.byteLength;
+                    if (bytes > maxResponseBytes) throw new ResponseSizeLimitError(maxResponseBytes);
+                    rawText += decoder.decode(value, { stream: true });
+                }
+                rawText += decoder.decode();
+            } finally {
+                clearTimeout(timer);
+                await reader?.cancel().catch(() => {});
+                reader?.releaseLock();
+            }
+        } else {
+            rawText = await response.text();
+        }
         if (rawText.trim() === '') {
             return null as T;
         }
@@ -192,12 +229,12 @@ export class SiYuanClient {
         return this.requestWrite(endpoint, data);
     }
 
-    async requestRead<T>(endpoint: string, data?: object): Promise<T> {
+    async requestRead<T>(endpoint: string, data?: object, maxResponseBytes?: number): Promise<T> {
         return this.readData<T>(`${this.baseUrl}${endpoint}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', ...this.getAuthHeaders() },
             body: JSON.stringify(data ?? {}),
-        }, 'read');
+        }, 'read', maxResponseBytes);
     }
 
     async requestWrite<T>(endpoint: string, data?: object): Promise<T> {
