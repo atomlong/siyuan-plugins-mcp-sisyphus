@@ -1,3 +1,4 @@
+import { getWorkspaceApiUrl } from './shared/workspace-api-url';
 import {
     Plugin,
     showMessage,
@@ -171,10 +172,7 @@ export default class SiyuanMCP extends Plugin {
         }
         appendHttpLifecycleLog(`[plugin] start HTTP requested: ${this.httpSettings.host}:${this.httpSettings.port}`);
         const siyuanToken = (window as any)?.siyuan?.config?.api?.token ?? undefined;
-        const siyuanApiUrl = window.location?.origin;
-        if (!siyuanApiUrl || !/^https?:\/\//.test(siyuanApiUrl)) {
-            throw new Error('Cannot determine the current SiYuan workspace API origin. Reopen this workspace before starting HTTP MCP.');
-        }
+        const siyuanApiUrl = getWorkspaceApiUrl(window.location?.origin);
         await this.httpLauncher.start({
             host: this.httpSettings.host,
             port: this.httpSettings.port,

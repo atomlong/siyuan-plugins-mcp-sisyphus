@@ -236,6 +236,65 @@ async function assertStableCrossObjectActionThenRejectDrift(
 }
 
 describe('write safety coordinator', () => {
+    it.each([
+        ['commit', 1], ['drift', 1], ['unchanged', 1],
+        ['commit', 11], ['drift', 11], ['unchanged', 11],
+    ] as const)('tracks targets and inline DOM attributes: %s (%i blocks)', async (scenario, count) => {
+        const ids = Array.from({ length: 11 }, (_, i) => `20260812000000-${String(i).padStart(7, '0')}`);
+        let subtype = 'd';
+        let strong = '';
+        let reads = 0;
+        const client = {
+            readFile: vi.fn(async () => { throw new Error('HTTP error: 404 Not Found'); }),
+            writeFile: vi.fn(async () => undefined),
+            requestRead: vi.fn(async (endpoint: string, body?: { id?: string }) => {
+                if (endpoint === '/api/block/checkBlockExist') return true;
+                if (endpoint === '/api/block/getBlockInfo') return { id: body?.id, box: 'nb-1' };
+                if (endpoint === '/api/attr/getBlockAttrs') return {};
+                if (endpoint === '/api/block/getBlockKramdown') return { kramdown: 'unchanged text' };
+                if (endpoint === '/api/block/getChildBlocks') return [];
+                if (endpoint === '/api/block/getBlockDOM') {
+                    // Serializer order and bookkeeping timestamps are not edits.
+                    const attrs = [`data-type="block-ref${strong}"`, `data-subtype="${subtype}"`];
+                    if (++reads % 2) attrs.reverse();
+                    return { dom: `<div data-updated="${reads}"><span ${attrs.join(' ')}>unchanged text</span></div>` };
+                }
+                return [];
+            }),
+        } as never;
+        const permMgr = createMockPermissionManager();
+        permMgr.getAll = vi.fn(() => ({ 'nb-1': 'rw' }));
+        const coordinator = new WriteSafetyCoordinator(client);
+        const args = { action: 'update', ...(count === 1
+            ? { id: ids[0], dataType: 'dom', data: '<p>replacement</p>' }
+            : { items: ids.map((id) => ({ id, dataType: 'dom', data: '<p>replacement</p>' })) }) };
+        const preflightExecute = vi.fn();
+        const preflight = parseResult(await coordinator.run({
+            client, permMgr, category: 'block', action: 'update', strictMode: true,
+            args: { ...args, validateOnly: true }, execute: preflightExecute,
+        }));
+        expect(preflight.targetCount).toBe(count);
+        expect(preflightExecute).not.toHaveBeenCalled();
+        if (scenario === 'drift') subtype = 's';
+        const execute = vi.fn(async () => {
+            if (scenario === 'commit') { subtype = 's'; strong = ' strong'; }
+            return success({ count });
+        });
+        const result = parseResult(await coordinator.run({
+            client, permMgr, category: 'block', action: 'update', strictMode: true,
+            args: { ...args, requestId: uuidV7(), expectedStateHash: preflight.stateHash }, execute,
+        }));
+        if (scenario === 'drift') {
+            expect(result.error.code).toBe('state_changed');
+            expect(execute).not.toHaveBeenCalled();
+        } else {
+            expect(execute).toHaveBeenCalledTimes(1);
+            expect(result.safety.transactionState).toBe(scenario === 'commit' ? 'committed' : 'no_change');
+            if (scenario === 'commit') expect(result.safety.previousHash).not.toBe(result.safety.resultHash);
+            else expect(result.safety.previousHash).toBe(result.safety.resultHash);
+        }
+    });
+
     it('rejects a set_relation destination AV drift before dispatch', async () => {
         const fixture = createCrossObjectAvFixture();
         const coordinator = new WriteSafetyCoordinator(fixture.client);
@@ -1332,13 +1391,18 @@ describe('write safety coordinator', () => {
                 table: { columns: [{ id: 'key-status', hidden: false }] },
             }],
         };
+        let domReadCount = 0;
         const client = {
             readFile: vi.fn(async () => { throw new Error('HTTP error: 404 Not Found'); }),
             writeFile: vi.fn(async () => undefined),
             requestRead: vi.fn(async (endpoint: string) => {
                 if (endpoint === '/api/av/getAttributeView') return { av: structuredClone(definition) };
                 if (endpoint === '/api/attr/getBlockAttrs') return { 'custom-sy-av-view': viewID, 'custom-sy-av-visible-views': 'all' };
-                if (endpoint === '/api/block/getBlockDOM') return { id: blockID, dom: `<div data-type="NodeAttributeView" data-av-id="${avID}"></div>` };
+                if (endpoint === '/api/block/getBlockDOM') {
+                    const attrs = [`updated="20260907205737"`, `custom-sy-av-view="${viewID}"`];
+                    if (++domReadCount % 2) attrs.reverse();
+                    return { id: blockID, dom: `<div data-type="NodeAttributeView" data-av-id="${avID}" ${attrs.join(' ')}></div>` };
+                }
                 if (endpoint === '/api/block/getBlockInfo') return { id: blockID, box: 'nb-1' };
                 return null;
             }),

@@ -23,7 +23,9 @@
 
 > Connect external AI agents, the existing Sisyphus toolset, and SiYuan's official MCP plugin ecosystem.
 
-> **Latest:** `v0.6.4` — Expands guarded AV configuration, adds auditable Markdown snapshots, image-reference auditing, permission-scoped visual image delivery, extension diagnostics, and clearer path semantics. Thanks to [@LoneFireBlossom](https://github.com/LoneFireBlossom) for [PR #48](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/48) and PRs #50–#56, [@ray24777](https://github.com/ray24777) for [PR #57](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/57), and [@adminclaw](https://github.com/adminclaw) for [PR #58](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/58). CLI is now `v0.2.6`.
+> **Latest:** `v0.6.5` — Fixes multi-workspace connection configuration using the current SiYuan endpoint and matching credentials, including local HTTPS kernel ports; repairs database filter schemas, batch preflight counts, and attribute-change state checks; improves large-document reads and continuation. CLI is now `v0.2.7`.
+
+> **v0.6.4:** `v0.6.4` — Expands guarded AV configuration, adds auditable Markdown snapshots, image-reference auditing, permission-scoped visual image delivery, extension diagnostics, and clearer path semantics. Thanks to [@LoneFireBlossom](https://github.com/LoneFireBlossom) for [PR #48](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/48) and PRs #50–#56, [@ray24777](https://github.com/ray24777) for [PR #57](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/57), and [@adminclaw](https://github.com/adminclaw) for [PR #58](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/58). CLI is now `v0.2.6`.
 
 ## Project Direction Update
 

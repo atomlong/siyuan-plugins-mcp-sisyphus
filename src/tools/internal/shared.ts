@@ -379,7 +379,29 @@ export function buildAggregatedTool<Action extends string>(
     const fullDescription = buildTieredDescription(category, description, enabledActions, enabledVariants, options);
     const confirmationActions = enabledActions.filter((action) => isDangerousAction(category, action));
 
-    const mergedProperties = mergePropertySchemas(enabledVariants, options.propertyDescriptionOverrides);
+    // References are relative to each action's original schema root. Keep that
+    // root under an action namespace so recursive definitions survive merging
+    // and independently generated names such as __schema0 cannot collide.
+    const definitions: JsonSchema = {};
+    const scopedVariants = enabledVariants.map((variant) => {
+        const prefix = `#/$defs/${variant.action.replace(/~/g, '~0').replace(/\//g, '~1')}`;
+        let hasLocalRef = false;
+        const relocate = (value: any): any => {
+            if (Array.isArray(value)) return value.map(relocate);
+            if (!value || typeof value !== 'object') return value;
+            return Object.fromEntries(Object.entries(value).map(([key, nested]) => {
+                if (key === '$ref' && typeof nested === 'string' && (nested === '#' || nested.startsWith('#/'))) {
+                    hasLocalRef = true;
+                    return [key, prefix + nested.slice(1)];
+                }
+                return [key, relocate(nested)];
+            }));
+        };
+        const schema = relocate(variant.schema);
+        if (hasLocalRef) definitions[variant.action] = schema;
+        return { ...variant, schema };
+    });
+    const mergedProperties = mergePropertySchemas(scopedVariants, options.propertyDescriptionOverrides);
     // `topic` is a help-only selector; merge it in without clobbering any action-specific property.
     if (!('topic' in mergedProperties)) {
         mergedProperties.topic = {
@@ -394,6 +416,7 @@ export function buildAggregatedTool<Action extends string>(
 
     const inputSchema = normalizeJsonSchema({
         type: 'object',
+        ...(Object.keys(definitions).length > 0 ? { $defs: definitions } : {}),
         properties: {
             action: {
                 type: 'string',

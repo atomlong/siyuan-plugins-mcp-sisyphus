@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { getWorkspaceApiUrl } from "@/shared/workspace-api-url";
     import { onDestroy, onMount } from "svelte";
     import { showMessage } from "siyuan";
 
@@ -235,7 +236,7 @@
             command: "node",
             args: [getWorkspaceScriptPath()],
             env: {
-                SIYUAN_API_URL: "http://127.0.0.1:6806",
+                SIYUAN_API_URL: getSiYuanApiUrl(),
                 SIYUAN_TOKEN: getSiYuanApiToken(),
             },
         };
@@ -390,10 +391,7 @@
     }
 
     function getSiYuanApiUrl(): string {
-        const origin = window?.location?.origin;
-        return typeof origin === "string" && /^https?:\/\//.test(origin)
-            ? origin
-            : "http://127.0.0.1:6806";
+        return getWorkspaceApiUrl(window?.location?.origin);
     }
 
     function generateMcpAiSetupPrompt(): string {

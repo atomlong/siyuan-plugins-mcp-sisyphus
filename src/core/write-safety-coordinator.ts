@@ -623,7 +623,7 @@ async function probeCurrentState(
                     'custom-sy-av-view': attrs['custom-sy-av-view'],
                     'custom-sy-av-visible-views': attrs['custom-sy-av-visible-views'],
                 },
-                dom: domText,
+                dom: canonicalizeAvCarrierDom(domText),
             };
         }
     } else if (category === 'flashcard') {
@@ -933,13 +933,19 @@ async function appendBlockRows(
                 continue;
             }
             if (exists === true) {
-                const [info, attrs, kramdown, children] = await Promise.all([
+                const [info, attrs, kramdown, children, dom] = await Promise.all([
                     client.requestRead('/api/block/getBlockInfo', { id }),
                     client.requestRead('/api/attr/getBlockAttrs', { id }),
                     client.requestRead('/api/block/getBlockKramdown', { id }),
                     client.requestRead('/api/block/getChildBlocks', { id }),
+                    client.requestRead('/api/block/getBlockDOM', { id }),
                 ]);
                 liveBlocks[id] = normalizeLiveBlockState({ info, attrs, kramdown, children });
+                // Kramdown can omit persisted inline textmark attributes.
+                // Keep the DOM in the preimage and postimage as well.
+                (liveBlocks[id] as Record<string, unknown>).dom = isRecord(dom) && typeof dom.dom === 'string'
+                    ? canonicalizeBlockDom(dom.dom)
+                    : dom;
                 continue;
             }
             const values = ids.map(sqlString).join(',');
@@ -959,6 +965,27 @@ async function appendBlockRows(
     state.blocks = await client.requestRead<unknown[]>('/api/query/sql', {
         stmt: `SELECT * FROM blocks WHERE ${clauses.join(' OR ')} ORDER BY id`,
     });
+}
+
+function canonicalizeBlockDom(dom: string): string {
+    const tags = /<([A-Za-z][A-Za-z0-9:-]*)\b/g;
+    let output = '';
+    let cursor = 0;
+    let match: RegExpExecArray | null;
+    while ((match = tags.exec(dom)) !== null) {
+        const end = findHtmlOpeningTagEnd(dom, tags.lastIndex);
+        if (end === undefined) break;
+        const parsed = parseHtmlOpeningTagAttributes(dom.slice(tags.lastIndex, end));
+        tags.lastIndex = end + 1;
+        if (!parsed) continue;
+        const attributes = parsed.attributes
+            .filter((attr) => !['updated', 'created', 'data-updated', 'data-created'].includes(attr.name.toLowerCase()))
+            .sort((a, b) => a.name.localeCompare(b.name) || a.index - b.index);
+        output += dom.slice(cursor, match.index)
+            + `<${match[1]}${attributes.map((attr) => ` ${attr.raw}`).join('')}${parsed.selfClosing ? ' /' : ''}>`;
+        cursor = end + 1;
+    }
+    return output + dom.slice(cursor);
 }
 
 function normalizeLiveBlockState(value: unknown): unknown {
@@ -2003,6 +2030,11 @@ function collectTargetSelectors(args: Record<string, unknown>): string[] {
     if (Array.isArray(args.targets)) {
         for (const target of args.targets) {
             if (isRecord(target) && typeof target.id === 'string' && target.id.trim()) values.add(target.id.trim());
+        }
+    }
+    if (Array.isArray(args.items)) {
+        for (const item of args.items) {
+            if (isRecord(item) && typeof item.id === 'string' && item.id.trim()) values.add(item.id.trim());
         }
     }
     return [...values].sort();
