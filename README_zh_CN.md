@@ -23,7 +23,7 @@
 
 > 连接外部 AI Agent、Sisyphus 原有工具与思源官方 MCP 插件生态。
 
-> **最新版本：**`v0.6.5` — 修复多工作区连接配置，使用当前思源地址与配套凭据，并正确处理本机 HTTPS 内核端口；修复数据库筛选 Schema、批量预检计数和属性改动状态校验；优化大文档读取与续读。CLI 同步提升至 `v0.2.7`。
+> **最新版本：**`v0.6.6` — 修复思源 3.8.3 数据更新触发插件反复重载、导致 MCP 请求中断的问题；HTTP 服务运行时默认推荐 HTTP/HTTPS，并解释多工作空间端口配置；stdio 配置固定使用 6806，避免保存随机内核端口。
 
 > **v0.6.4：**`v0.6.4` — 扩展受保护的 AV 配置能力，新增可审计 Markdown 快照、图片引用审计、权限受控的视觉图片读取、扩展诊断与更清晰的路径语义。感谢 [@LoneFireBlossom](https://github.com/LoneFireBlossom) 提交 [PR #48](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/48) 与 PR #50–#56，感谢 [@ray24777](https://github.com/ray24777) 提交 [PR #57](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/57)，感谢 [@adminclaw](https://github.com/adminclaw) 提交 [PR #58](https://github.com/yangtaihong59/siyuan-plugins-mcp-sisyphus/pull/58)。CLI 提升至 `v0.2.6`。
 
