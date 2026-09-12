@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 
 import { AV_FILTER_MAX_DEPTH } from '@/core/types';
-import { AV_VARIANTS } from '@/tools/av';
+import { buildDefaultToolConfig, type AvAction, type CategoryToolConfig } from '@/core/config';
+import { AV_TOOL_NAME, AV_VARIANTS, listAvTools } from '@/tools/av';
 
 const setFiltersVariant = AV_VARIANTS.find((variant) => variant.action === 'set_filters');
 
@@ -65,5 +66,21 @@ describe('av set_filters schema depth bounding', () => {
             viewID: 'view-1',
             filters: [filter],
         })).toThrow();
+    });
+
+    it('keeps every AV action variant schema $ref-free', () => {
+        for (const variant of AV_VARIANTS) {
+            expect(JSON.stringify(variant.schema)).not.toContain('$ref');
+        }
+    });
+
+    it('keeps the aggregated av tool schema $ref-free after buildAggregatedTool', () => {
+        const config = buildDefaultToolConfig().av as CategoryToolConfig<AvAction>;
+        const tools = listAvTools(config);
+        const av = tools.find((tool) => tool.name === AV_TOOL_NAME);
+        expect(av).toBeDefined();
+        const serialized = JSON.stringify(av!.inputSchema);
+        expect(serialized).not.toContain('$ref');
+        expect(serialized).not.toContain('$defs');
     });
 });

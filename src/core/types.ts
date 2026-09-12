@@ -1036,7 +1036,7 @@ const AvRelativeDateSchema = z.object({
 // z.toJSONSchema output fully inlineable (no $defs / $ref).
 export const AV_FILTER_MAX_DEPTH = 5;
 
-const buildAvFilterSchema = (depth: number): z.ZodType<AvFilterInput> => z.object({
+const buildAvFilterSchema = (depth: number) => z.object({
     column: z.string().min(1).optional().describe('Existing AV key ID for a leaf filter'),
     quantifier: z.enum(['Any', 'All', 'None']).optional(),
     operator: z.enum(['=', '!=', '>', '>=', '<', '<=', 'Contains', 'Does not contains', 'Is empty', 'Is not empty', 'Starts with', 'Ends with', 'Is between', 'Is true', 'Is false']).optional(),
