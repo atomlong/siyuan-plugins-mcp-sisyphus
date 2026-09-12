@@ -1034,6 +1034,10 @@ const AvRelativeDateSchema = z.object({
 // Upstream tool-schema inliners (e.g. GLM/ZAI) reject recursive $refs, so the
 // filter tree must be depth-bounded instead of z.lazy-recursive to keep
 // z.toJSONSchema output fully inlineable (no $defs / $ref).
+// 5 node levels mirror the kernel's own guard: MaxFilterNestingDepth = 3
+// (kernel/av/av_fix.go) counts group levels, groups allowed at depths 0-3
+// and depth-4 nodes must be leaf-only, so the deepest node level here is
+// leaf-only (no combination/filters).
 export const AV_FILTER_MAX_DEPTH = 5;
 
 const buildAvFilterSchema = (depth: number) => z.object({
@@ -1043,8 +1047,8 @@ const buildAvFilterSchema = (depth: number) => z.object({
     value: AvFilterValueSchema.nullable().optional(),
     relativeDate: AvRelativeDateSchema.optional(),
     relativeDate2: AvRelativeDateSchema.optional(),
-    combination: z.enum(['and', 'or']).optional(),
     ...(depth < AV_FILTER_MAX_DEPTH ? {
+        combination: z.enum(['and', 'or']).optional(),
         filters: z.array(buildAvFilterSchema(depth + 1)).optional().describe(`Nested group filters; group nesting is capped at ${AV_FILTER_MAX_DEPTH} levels.`),
     } : {}),
 }).strict().superRefine((filter, ctx) => {

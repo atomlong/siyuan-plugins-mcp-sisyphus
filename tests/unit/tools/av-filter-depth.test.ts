@@ -68,6 +68,22 @@ describe('av set_filters schema depth bounding', () => {
         })).toThrow();
     });
 
+    it('rejects a combination-only empty group at the deepest level (kernel ErrFilterTooDeep parity)', () => {
+        // 4 nested groups (levels 1-4) with a combination-only node at level 5:
+        // the kernel counts it as a group at depth 4 and rejects it, so zod must too.
+        let filter: Record<string, unknown> = { combination: 'and' };
+        for (let level = 0; level < 4; level++) {
+            filter = { combination: 'and', filters: [filter] };
+        }
+        expect(() => setFiltersVariant!.validate({
+            action: 'set_filters',
+            avID: 'av-1',
+            blockID: 'block-1',
+            viewID: 'view-1',
+            filters: [filter],
+        })).toThrow();
+    });
+
     it('keeps every AV action variant schema $ref-free', () => {
         for (const variant of AV_VARIANTS) {
             expect(JSON.stringify(variant.schema)).not.toContain('$ref');
